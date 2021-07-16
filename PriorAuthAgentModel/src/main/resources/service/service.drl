@@ -1,0 +1,28 @@
+//created on: Jul 16, 2021
+package model
+import model.ServiceAgent 
+//list any import classes here.
+
+
+
+//declare any global variables here
+
+
+
+
+rule "Your First Rule"
+
+    when
+        ServiceAgent()
+    then
+        System.out.println("Service Agent exists");
+end
+
+rule "Your Second Rule"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end
