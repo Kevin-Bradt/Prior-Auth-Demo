@@ -12,7 +12,6 @@ import jade.core.behaviours.OneShotBehaviour;
 public class ManagerAgent extends Agent implements DecisionAgent {
 		
 	
-	
 	protected void setup() {
 		System.out.println("ManagerAgent start");
 		
@@ -38,12 +37,15 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		}
 		
 		public void action() {
+			System.out.println("------------------------------");
+			System.out.println("\tShark Tank Demo");
+			System.out.println("------------------------------");
 	    	kSession.insert(myAgent);
 	    	kSession.fireAllRules();
 	    	
 	    	// Find eligibility
 	    	eligibility = findAgent(myAgent, "eligibility");
-	    	System.out.println("Manager Found "+eligibility);
+	    	System.out.println("Manager Found "+eligibility); 
 	    	
 	    	// Find provider
 	    	provider = findAgent(myAgent, "provider");
