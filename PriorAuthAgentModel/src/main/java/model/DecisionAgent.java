@@ -36,7 +36,9 @@ public interface DecisionAgent {
 		
 		try {
 			DFAgentDescription[] result = DFService.search(agent, template); 
-			aid = result[0].getName();
+			if (result.length > 0) {
+				aid = result[0].getName();
+			}
 		} catch (FIPAException fe) {
 			fe.printStackTrace();
 		}
