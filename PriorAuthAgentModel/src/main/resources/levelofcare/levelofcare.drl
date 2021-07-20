@@ -1,0 +1,21 @@
+//created on: Jul 20, 2021
+package model
+
+//list any import classes here.
+
+import model.LevelOfCareAgent
+
+//declare any global variables here
+
+
+
+
+rule "Your First Rule"
+
+    when
+        LevelOfCareAgent()
+    then
+        System.out.println("LevelOfCare Agent exists");
+
+end
+

@@ -15,4 +15,7 @@
     <kbase name="manager" packages="manager">
         <ksession name="ksession-manager"/>
     </kbase>
+    <kbase name="levelofcare" packages="levelofcare">
+        <ksession name="ksession-levelofcare"/>
+    </kbase>
 </kmodule>
