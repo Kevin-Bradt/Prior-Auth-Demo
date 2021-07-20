@@ -5,6 +5,7 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 
@@ -18,13 +19,17 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 	    KieContainer kContainer = ks.getKieClasspathContainer();
     	KieSession kSession = kContainer.newKieSession("ksession-provider");
     	
+    	// Register the eligibility agent in the yellow pages
+    	registerAgent(this, getAID(), "provider");
+    	
     	// Try receiving message
     	addBehaviour(new Messaging(kSession));
 	}
 	
 	private class Messaging extends OneShotBehaviour {
 		
-		KieSession kSession;
+		private KieSession kSession;
+		private AID manager;
 		
 		public Messaging(KieSession k) {
 			kSession = k;
@@ -33,6 +38,10 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 		public void action() {
 	    	kSession.insert(myAgent);
 	    	kSession.fireAllRules();
+	    	
+	    	//Find manager
+	    	manager = findAgent(myAgent, "manager");
+	    	System.out.println("Provider Found "+manager);
 		}
 		
 	}
