@@ -1,28 +1,45 @@
 //created on: Jul 16, 2021
 package model
-import model.EligibilityAgent 
+
 //list any import classes here.
 
-
+import model.EligibilityAgent 
+import jade.core.AID;
+import jade.lang.acl.ACLMessage;
 
 //declare any global variables here
 
 
 
 
-rule "Your First Rule"
-
-    when
-        EligibilityAgent()
-    then
-        System.out.println("Eligibility Agent exists");
+rule "Missing manager Message"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("first-info") )
+		$m : EligibilityAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Rule - Info Message recieved from "+$send+" sent to "+$r);
+		//Failure
+		ACLMessage elig = new ACLMessage(ACLMessage.FAILURE);
+		elig.addReceiver($m.getManager());
+		elig.setContent("missing info:");
+		elig.setConversationId("missing");
+		$m.send(elig);
+		retract($a);		
 end
 
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
-    when
-        //conditions
-    then
-        //actions
-
+rule "Missing manager fulfill Message"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("missing-fulfill") )
+		$m : EligibilityAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Rule - Info Message recieved from "+$send+" sent to "+$r);
+		//Failure
+		ACLMessage elig = new ACLMessage(ACLMessage.AGREE);
+		elig.addReceiver($m.getManager());
+		elig.setContent("looks good");
+		elig.setConversationId("eligibility-approval");
+		$m.send(elig);
+		retract($a);		
 end
+
+

@@ -4,18 +4,41 @@ package model
 //list any import classes here.
 
 import model.LevelOfCareAgent
+import jade.core.AID
+import jade.lang.acl.ACLMessage
 
 //declare any global variables here
 
 
 
 
-rule "Your First Rule"
+rule "Service Message"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("first-info") )
+		$m : LevelOfCareAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Rule - Info Message recieved from "+$send+" sent to "+$r);
+		//Approval
+		ACLMessage loc = new ACLMessage(ACLMessage.REQUEST);
+		loc.addReceiver($m.getMednec());
+		loc.setContent("here's some info");
+		loc.setConversationId("first-info");
+		$m.send(loc);
+		retract($a);		
+end
 
-    when
-        LevelOfCareAgent()
-    then
-        System.out.println("LevelOfCare Agent exists");
-
+rule "Mednec Message"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("med-decision") )
+		$m : LevelOfCareAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Rule - Info Message recieved from "+$send+" sent to "+$r);
+		//Approval
+		ACLMessage care = new ACLMessage(ACLMessage.AGREE);
+		care.addReceiver($m.getService());
+		care.setContent("all good");
+		care.setConversationId("care-decision");
+		$m.send(care);
+		retract($a);		
 end
 

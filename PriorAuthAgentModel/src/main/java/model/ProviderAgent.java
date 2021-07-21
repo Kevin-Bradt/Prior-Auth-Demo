@@ -8,13 +8,34 @@ import org.kie.api.runtime.KieSession;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import jade.lang.acl.ACLMessage;
 
 public class ProviderAgent extends Agent implements DecisionAgent {
 		
+	private AID aidNameOnly;
+	private AID manager;
 	
+	public AID getManager() {
+		return manager;
+	}
+
+	public void setManager(AID manager) {
+		this.manager = manager;
+	}
+
+	public AID getAidNameOnly() {
+		return aidNameOnly;
+	}
+
+	public void setAidNameOnly(AID aidNameOnly) {
+		this.aidNameOnly = aidNameOnly;
+	}
 	
 	protected void setup() {
 		System.out.println("ProviderAgent start");
+		aidNameOnly = getAID();
+		aidNameOnly.clearAllAddresses();
+		
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
     	KieSession kSession = kContainer.newKieSession("ksession-provider");
@@ -29,7 +50,6 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 	private class Messaging extends OneShotBehaviour {
 		
 		private KieSession kSession;
-		private AID manager;
 		
 		public Messaging(KieSession k) {
 			kSession = k;
@@ -40,8 +60,32 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 	    	kSession.fireAllRules();
 	    	
 	    	//Find manager
-	    	manager = findAgent(myAgent, "manager");
-	    	System.out.println("Provider Found "+manager);
+	    	setManager(findAgent(myAgent, "manager"));
+	    	System.out.println("Provider Found "+getManager());
+	    	
+	    	// Start of demo
+	    	ACLMessage msg = myAgent.blockingReceive();		
+			
+			if (msg != null) {
+				System.out.println("Provider: Behaviour recieved message");
+				
+				//delay
+				try
+				{
+				    Thread.sleep(4000);
+				}
+				catch(InterruptedException ex)
+				{
+				    Thread.currentThread().interrupt();
+				}
+				
+				kSession.insert(msg);
+				kSession.fireAllRules();
+				
+			} else {
+				block();
+			}
+			
 		}
 		
 	}

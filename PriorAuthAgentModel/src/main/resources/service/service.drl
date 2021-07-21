@@ -1,28 +1,43 @@
 //created on: Jul 16, 2021
 package model
-import model.ServiceAgent 
+
 //list any import classes here.
 
-
+import model.ServiceAgent 
+import jade.core.AID
+import jade.lang.acl.ACLMessage
 
 //declare any global variables here
 
 
 
 
-rule "Your First Rule"
-
-    when
-        ServiceAgent()
-    then
-        System.out.println("Service Agent exists");
+rule "Manager Message"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("first-info") )
+		$m : ServiceAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Rule - Info Message recieved from "+$send+" sent to "+$r);
+		//Approval
+		ACLMessage serv = new ACLMessage(ACLMessage.INFORM);
+		serv.addReceiver($m.getLevelofcare());
+		serv.setContent("here's some info");
+		serv.setConversationId("first-info");
+		$m.send(serv);
+		retract($a);		
 end
 
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
-    when
-        //conditions
-    then
-        //actions
-
+rule "Levelofcare Message"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("care-decision") )
+		$m : ServiceAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Rule - Info Message recieved from "+$send+" sent to "+$r);
+		//Approval
+		ACLMessage serv = new ACLMessage(ACLMessage.AGREE);
+		serv.addReceiver($m.getManager());
+		serv.setContent("all good");
+		serv.setConversationId("service-approval");
+		$m.send(serv);
+		retract($a);		
 end

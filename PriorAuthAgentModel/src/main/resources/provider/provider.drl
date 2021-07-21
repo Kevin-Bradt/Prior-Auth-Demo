@@ -1,28 +1,28 @@
 //created on: Jul 16, 2021
 package model
-import model.ProviderAgent 
+
 //list any import classes here.
 
-
+import model.ProviderAgent 
+import jade.core.AID;
+import jade.lang.acl.ACLMessage;
 
 //declare any global variables here
 
 
 
 
-rule "Your First Rule"
-
-    when
-        ProviderAgent()
-    then
-        System.out.println("Provider Agent exists");
-end
-
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
-    when
-        //conditions
-    then
-        //actions
-
+rule "Confirm manager Message"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("first-info") )
+		$m : ProviderAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Rule - Info Message recieved from "+$send+" sent to "+$r);
+		//Approval
+		ACLMessage prov = new ACLMessage(ACLMessage.AGREE);
+		prov.addReceiver($m.getManager());
+		prov.setContent("looks good");
+		prov.setConversationId("provider-approval");
+		$m.send(prov);
+		retract($a);		
 end

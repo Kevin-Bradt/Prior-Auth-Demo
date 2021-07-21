@@ -1,28 +1,102 @@
 //created on: Jul 16, 2021
 package model
-import model.ManagerAgent 
+
 //list any import classes here.
 
-
+import model.ManagerAgent 
+import jade.core.AID;
+import jade.lang.acl.ACLMessage;
 
 //declare any global variables here
 
 
 
 
-rule "Your First Rule"
-
-    when
-        ManagerAgent()
-    then
-        System.out.println("Manager Agent exists");
+rule "Facility Message"
+	when
+		$a : ACLMessage( $send : sender, $r : AllReceiver.next(), ConversationId.equals("facility") )
+		$m : ManagerAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Rule - Facility Message recieved from "+$send+" sent to "+$r);
+		$m.setFacility($send);
+		//Eligibility
+		ACLMessage elig = new ACLMessage(ACLMessage.INFORM);
+		elig.addReceiver($m.getEligibility());
+		elig.setContent("elig message");
+		elig.setConversationId("first-info");
+		$m.send(elig);
+		//Providers
+		ACLMessage prov = new ACLMessage(ACLMessage.INFORM);
+		prov.addReceiver($m.getProvider());
+		prov.setContent("prov message");
+		prov.setConversationId("first-info");
+		$m.send(prov);
+		//Service
+		ACLMessage serv = new ACLMessage(ACLMessage.INFORM);
+		serv.addReceiver($m.getService());
+		serv.setContent("serv message");
+		serv.setConversationId("first-info");
+		$m.send(serv);
+		retract($a);		
 end
 
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
-    when
-        //conditions
-    then
-        //actions
-
+rule "Missing elig Message"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("missing") )
+		$m : ManagerAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Rule - Missing Message recieved from "+$send+" sent to "+$r);
+		//Send back
+		ACLMessage elig2 = new ACLMessage(ACLMessage.INFORM);
+		elig2.addReceiver($m.getEligibility());
+		elig2.setContent("here is the missing info:");
+		elig2.setConversationId("missing-fulfill");
+		$m.send(elig2);
+		retract($a);		
 end
+
+rule "Elig Approval"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("eligibility-approval") )
+		$m : ManagerAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Setting elig to true");
+		//Set true
+		$m.setElig(true);
+		retract($a);		
+end
+
+rule "Prov Approval"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("provider-approval") )
+		$m : ManagerAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Setting prov to true");
+		//Set true
+		$m.setProv(true);
+		retract($a);		
+end
+
+rule "Serv Approval"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), ConversationId.equals("service-approval") )
+		$m : ManagerAgent( aidNameOnly.equals($r) )
+	then
+		System.out.println("Setting serv to true");
+		//Set true
+		$m.setServ(true);
+		retract($a);		
+end
+
+rule "Approval"
+	when
+		$m : ManagerAgent( elig == true && prov == true && serv == true )
+	then
+		System.out.println("PA REQUEST APPROVED");
+		ACLMessage approve = new ACLMessage(ACLMessage.AGREE);
+		approve.addReceiver($m.getFacility());
+		approve.setContent("APPROVED");
+		approve.setConversationId("request-approve");
+		$m.send(approve);
+end
+

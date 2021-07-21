@@ -8,12 +8,42 @@ import org.kie.api.runtime.KieSession;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import jade.lang.acl.ACLMessage;
 
 public class ServiceAgent extends Agent implements DecisionAgent {
 		
+	private AID aidNameOnly;
+	private AID manager, levelofcare;
 	
+	public AID getManager() {
+		return manager;
+	}
+
+	public void setManager(AID manager) {
+		this.manager = manager;
+	}
+
+	public AID getLevelofcare() {
+		return levelofcare;
+	}
+
+	public void setLevelofcare(AID levelofcare) {
+		this.levelofcare = levelofcare;
+	}
+
+	public AID getAidNameOnly() {
+		return aidNameOnly;
+	}
+
+	public void setAidNameOnly(AID aidNameOnly) {
+		this.aidNameOnly = aidNameOnly;
+	}
+
 	protected void setup() {
 		System.out.println("ServiceAgent start");
+		aidNameOnly = getAID();
+		aidNameOnly.clearAllAddresses();
+		
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
     	KieSession kSession = kContainer.newKieSession("ksession-service");
@@ -28,7 +58,7 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	private class Messaging extends OneShotBehaviour {
 		
 		private KieSession kSession;
-		private AID manager, levelofcare;
+		
 		
 		public Messaging(KieSession k) {
 			kSession = k;
@@ -39,12 +69,58 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	    	kSession.fireAllRules();
 	    	
 	    	//Find manager
-	    	manager = findAgent(myAgent, "manager");
-	    	System.out.println("Service Found "+manager);
+	    	setManager(findAgent(myAgent, "manager"));
+	    	System.out.println("Service Found "+getManager());
 	    	
 	    	//Find level of care
-	    	levelofcare = findAgent(myAgent, "levelofcare");
-	    	System.out.println("Service Found "+levelofcare);
+	    	setLevelofcare(findAgent(myAgent, "levelofcare"));
+	    	System.out.println("Service Found "+getLevelofcare());
+	    	
+	    	// Start of demo
+	    	ACLMessage msg = myAgent.blockingReceive();		
+			
+			if (msg != null) {
+				System.out.println("Service: Behaviour recieved message");
+				
+				//delay
+				try
+				{
+				    Thread.sleep(4500);
+				}
+				catch(InterruptedException ex)
+				{
+				    Thread.currentThread().interrupt();
+				}
+				
+				kSession.insert(msg);
+				kSession.fireAllRules();
+				
+			} else {
+				block();
+			}
+			
+			//Message 2 approves
+			ACLMessage msg2 = myAgent.blockingReceive();		
+			
+			if (msg2 != null) {
+				System.out.println("Service: Behaviour recieved message");
+				
+				//delay
+				try
+				{
+				    Thread.sleep(3000);
+				}
+				catch(InterruptedException ex)
+				{
+				    Thread.currentThread().interrupt();
+				}
+				
+				kSession.insert(msg2);
+				kSession.fireAllRules();
+				
+			} else {
+				block();
+			}
 		}
 	}
 }
