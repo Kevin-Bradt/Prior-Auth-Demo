@@ -1,0 +1,16 @@
+## Java
+*.class
+
+## macOS
+.DS_Store
+
+## Eclipse
+.settings/
+.classpath
+
+## IntelliJ
+.idea/workspace.xml
+
+## Compilation
+bin/
+target/
