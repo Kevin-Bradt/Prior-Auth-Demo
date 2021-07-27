@@ -2,8 +2,8 @@
 package model
 
 //list any import classes here.
-
-import model.LevelOfCareAgent
+import model.LevelOfCareAgent;
+import jade.lang.acl.ACLMessage;
 
 //declare any global variables here
 
@@ -16,6 +16,5 @@ rule "Your First Rule"
         LevelOfCareAgent()
     then
         System.out.println("LevelOfCare Agent exists");
-
 end
 

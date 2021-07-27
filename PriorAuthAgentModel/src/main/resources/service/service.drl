@@ -1,9 +1,9 @@
 //created on: Jul 16, 2021
 package model
-import model.ServiceAgent 
+
 //list any import classes here.
-
-
+import model.ServiceAgent;
+import jade.lang.acl.ACLMessage;
 
 //declare any global variables here
 
@@ -18,11 +18,3 @@ rule "Your First Rule"
         System.out.println("Service Agent exists");
 end
 
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
-    when
-        //conditions
-    then
-        //actions
-
-end
