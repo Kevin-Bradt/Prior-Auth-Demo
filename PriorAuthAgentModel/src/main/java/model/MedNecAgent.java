@@ -7,12 +7,21 @@ import org.kie.api.runtime.KieSession;
 
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.OneShotBehaviour;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.lang.acl.ACLMessage;
 
 public class MedNecAgent extends Agent implements DecisionAgent {
 		
+	private AID levelofcare;
 	
-	
+	public AID getLevelofcare() {
+		return levelofcare;
+	}
+
+	public void setLevelofcare(AID levelofcare) {
+		this.levelofcare = levelofcare;
+	}
+
 	protected void setup() {
 		System.out.println("MedNecAgent start");
 		KieServices ks = KieServices.Factory.get();
@@ -23,25 +32,37 @@ public class MedNecAgent extends Agent implements DecisionAgent {
     	registerAgent(this, getAID(), "mednec");
     	
     	// Try receiving message
-    	addBehaviour(new Messaging(kSession));
+    	addBehaviour(new Messaging(kSession, this));
 	}
 	
-	private class Messaging extends OneShotBehaviour {
+	private class Messaging extends CyclicBehaviour {
 		
 		private KieSession kSession;
-		private AID levelofcare;
 		
-		public Messaging(KieSession k) {
+		
+		public Messaging(KieSession k, Agent a) {
+			super(a);
+			
 			kSession = k;
-		}
-		
-		public void action() {
-	    	kSession.insert(myAgent);
+			kSession.insert(myAgent);
 	    	kSession.fireAllRules();
 	    	
 	    	//Find level of care
-	    	levelofcare = findAgent(myAgent, "levelofcare");
-	    	System.out.println("Med Nec Found "+levelofcare);
+	    	setLevelofcare(findAgent(myAgent, "levelofcare"));
+	    	System.out.println("Med Nec Found "+getLevelofcare());
+		}
+		
+		public void action() {
+	    	
+			// Wait for message
+	    	ACLMessage msg = myAgent.blockingReceive();
+	    	if (msg != null) {
+				kSession.insert(msg);
+				kSession.fireAllRules();
+			}
+			else {
+				block();
+			}
 	    	
 		}
 	}

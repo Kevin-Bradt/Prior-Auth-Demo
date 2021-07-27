@@ -6,12 +6,32 @@ import org.kie.api.runtime.KieSession;
 
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.OneShotBehaviour;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.lang.acl.ACLMessage;
 
 public class LevelOfCareAgent extends Agent implements DecisionAgent {
 	
+	private AID service, mednec;
+	
+	public AID getService() {
+		return service;
+	}
+
+	public void setService(AID service) {
+		this.service = service;
+	}
+
+	public AID getMednec() {
+		return mednec;
+	}
+
+	public void setMednec(AID mednec) {
+		this.mednec = mednec;
+	}
+
 	protected void setup() {
 		System.out.println("LevelOfCareAgent start");
+		
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
     	KieSession kSession = kContainer.newKieSession("ksession-levelofcare");
@@ -20,29 +40,46 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
     	registerAgent(this, getAID(), "levelofcare");
     	
     	// Try receiving message
-    	addBehaviour(new Messaging(kSession));
+    	addBehaviour(new Messaging(kSession, this));
 	}
 	
-	private class Messaging extends OneShotBehaviour {
+	private class Messaging extends CyclicBehaviour {
 		
 		private KieSession kSession;
-		private AID service, mednec;
 		
-		public Messaging(KieSession k) {
+		public Messaging(KieSession k, Agent a) {
+			super(a);
+			
+			// Get KieSession
 			kSession = k;
-		}
-		
-		public void action() {
-	    	kSession.insert(myAgent);
-	    	kSession.fireAllRules();
-	    	
-	    	//Find service
-	    	service = findAgent(myAgent, "service");
-	    	System.out.println("LevelOfCare Found "+service);
+			kSession.insert(myAgent);
+			kSession.fireAllRules();
+			
+			//Find service
+	    	setService(findAgent(myAgent, "service"));
+	    	System.out.println("LevelOfCare Found "+getService());
 	    	
 	    	//Find med nec
-	    	mednec = findAgent(myAgent, "mednec");
-	    	System.out.println("LevelOfCare Found "+mednec);
+	    	setMednec(findAgent(myAgent, "mednec"));
+	    	System.out.println("LevelOfCare Found "+getMednec());
+			
+	    	
+			
+		}
+		
+		// Cycles forever
+		public void action() {
+	    	
+			// Wait for message
+	    	ACLMessage msg = myAgent.blockingReceive();
+	    	if (msg != null) {
+				kSession.insert(msg);
+				kSession.fireAllRules();
+			}
+			else {
+				block();
+			}
+	    	
 	    	
 		}
 	}

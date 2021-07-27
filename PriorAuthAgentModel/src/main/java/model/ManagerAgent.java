@@ -7,12 +7,45 @@ import org.kie.api.runtime.KieSession;
 
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.OneShotBehaviour;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.lang.acl.ACLMessage;
 
 public class ManagerAgent extends Agent implements DecisionAgent {
 		
+	private AID eligibility, provider, service, facility;
 	
+	public AID getEligibility() {
+		return eligibility;
+	}
+
+	public void setEligibility(AID eligibility) {
+		this.eligibility = eligibility;
+	}
+
+	public AID getProvider() {
+		return provider;
+	}
+
+	public void setProvider(AID provider) {
+		this.provider = provider;
+	}
+
+	public AID getService() {
+		return service;
+	}
+
+	public void setService(AID service) {
+		this.service = service;
+	}
 	
+	public AID getFacility() {
+		return facility;
+	}
+
+	public void setFacility(AID facility) {
+		this.facility = facility;
+	}
+
 	protected void setup() {
 		System.out.println("ManagerAgent start");
 		
@@ -25,33 +58,48 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		registerAgent(this, getAID(), "manager");
     	
     	// Try receiving message
-    	addBehaviour(new Messaging(kSession));
+    	addBehaviour(new Messaging(kSession, this));
 	}
 	
-	private class Messaging extends OneShotBehaviour {
+	private class Messaging extends CyclicBehaviour {
 		
 		private KieSession kSession;
-		private AID eligibility, provider, service;
 		
-		public Messaging(KieSession k) {
+		
+		public Messaging(KieSession k, Agent a) {
+			super(a);
+			
+			
 			kSession = k;
-		}
-		
-		public void action() {
-	    	kSession.insert(myAgent);
+			kSession.insert(myAgent);
 	    	kSession.fireAllRules();
 	    	
 	    	// Find eligibility
-	    	eligibility = findAgent(myAgent, "eligibility");
-	    	System.out.println("Manager Found "+eligibility);
+	    	setEligibility(findAgent(myAgent, "eligibility"));
+	    	System.out.println("Manager Found "+getEligibility()); 
 	    	
 	    	// Find provider
-	    	provider = findAgent(myAgent, "provider");
-	    	System.out.println("Manager Found "+provider);
+	    	setProvider(findAgent(myAgent, "provider"));
+	    	System.out.println("Manager Found "+getProvider());
 	    	
 	    	// Find service
-	    	service = findAgent(myAgent, "service");
-	    	System.out.println("Manager Found "+service);
+	    	setService(findAgent(myAgent, "service"));
+	    	System.out.println("Manager Found "+getService());
+		}
+		
+		// Cycles forever
+		public void action() {
+	    	
+			// Wait for message
+	    	ACLMessage msg = myAgent.blockingReceive();
+	    	if (msg != null) {
+				kSession.insert(msg);
+				kSession.fireAllRules();
+			}
+			else {
+				block();
+			}
+	    	
 		}
 	}
 }

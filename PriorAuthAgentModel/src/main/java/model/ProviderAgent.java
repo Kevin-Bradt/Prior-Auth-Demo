@@ -7,12 +7,22 @@ import org.kie.api.runtime.KieSession;
 
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.OneShotBehaviour;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.lang.acl.ACLMessage;
+
 
 public class ProviderAgent extends Agent implements DecisionAgent {
 		
+	private AID manager;
 	
-	
+	public AID getManager() {
+		return manager;
+	}
+
+	public void setManager(AID manager) {
+		this.manager = manager;
+	}
+
 	protected void setup() {
 		System.out.println("ProviderAgent start");
 		KieServices ks = KieServices.Factory.get();
@@ -23,25 +33,38 @@ public class ProviderAgent extends Agent implements DecisionAgent {
     	registerAgent(this, getAID(), "provider");
     	
     	// Try receiving message
-    	addBehaviour(new Messaging(kSession));
+    	addBehaviour(new Messaging(kSession, this));
 	}
 	
-	private class Messaging extends OneShotBehaviour {
+	private class Messaging extends CyclicBehaviour {
 		
 		private KieSession kSession;
-		private AID manager;
+
 		
-		public Messaging(KieSession k) {
+		public Messaging(KieSession k, Agent a) {
+			super(a);
+			
 			kSession = k;
-		}
-		
-		public void action() {
-	    	kSession.insert(myAgent);
+			kSession.insert(myAgent);
 	    	kSession.fireAllRules();
 	    	
 	    	//Find manager
-	    	manager = findAgent(myAgent, "manager");
-	    	System.out.println("Provider Found "+manager);
+	    	setManager(findAgent(myAgent, "manager"));
+	    	System.out.println("Provider Found "+getManager());
+		}
+		
+		public void action() {
+	    	
+			// Wait for message
+	    	ACLMessage msg = myAgent.blockingReceive();
+	    	if (msg != null) {
+				kSession.insert(msg);
+				kSession.fireAllRules();
+			}
+			else {
+				block();
+			}
+	    	
 		}
 		
 	}
