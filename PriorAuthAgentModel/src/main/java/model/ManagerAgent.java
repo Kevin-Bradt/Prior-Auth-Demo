@@ -1,6 +1,5 @@
 package model;
 
-
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -9,6 +8,36 @@ import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.StringReader;
+import java.io.StringWriter;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class ManagerAgent extends Agent implements DecisionAgent {
 		
@@ -46,6 +75,22 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		this.facility = facility;
 	}
 
+	@SuppressWarnings("restriction")
+	private static String nodeListToString(NodeList nodes) throws TransformerException {
+	    DOMSource source = new DOMSource();
+	    StringWriter writer = new StringWriter();
+	    StreamResult result = new StreamResult(writer);
+	    Transformer transformer = TransformerFactory.newInstance().newTransformer();
+	    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+
+	    for (int i = 0; i < nodes.getLength(); ++i) {
+	        source.setNode(nodes.item(i));
+	        transformer.transform(source, result);
+	    }
+
+	    return writer.toString();
+	}
+	
 	protected void setup() {
 		System.out.println("ManagerAgent start");
 		
@@ -62,12 +107,41 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	}
 	
 	// Drools calls this when facility sends form
+	@SuppressWarnings("restriction")
 	public void breakdownForm(String str_xml) {
 		// Break apart form
 		// Send parts to approriate agents
 		// i.e. patient_info xml send to Elig. agent as string in ACL Message
+		try {	  
+	         //File inputFile = new File("NewFile.xml");
+	         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	         InputSource inputData = new InputSource();
+	         inputData.setCharacterStream(new StringReader(str_xml));
+	         Document doc = dBuilder.parse(inputData);
+	         doc.getDocumentElement().normalize();
+	         
+	         NodeList patientInfo = doc.getElementsByTagName("patient_info");
+	         NodeList physicianInfo = doc.getElementsByTagName("physician_info");
+	         NodeList medicalInfo = doc.getElementsByTagName("medical_info");
+	         NodeList insuranceInfo = doc.getElementsByTagName("insurance_info");
+
+	 		 // This function will send 3 ACLMessage total
+	         String eligibilityInfoMessage = nodeListToString(patientInfo);
+	         String providerInfoMessage = nodeListToString(physicianInfo);
+	         String serviceInfoMessage = nodeListToString(medicalInfo);
+	         
+	         
+	         quickMessage(getEligibility(),this,eligibilityInfoMessage,"initial-info");
+	         quickMessage(getProvider(),this,providerInfoMessage,"initial-info");
+	         quickMessage(getService(),this,serviceInfoMessage,"initial-info");
+	         
+	         
+		 } catch (Exception e) {
+	         e.printStackTrace();
+	     }
 		
-		// This function will send 3 ACLMessage total
+		
 	}
 	
 	private class Messaging extends CyclicBehaviour {

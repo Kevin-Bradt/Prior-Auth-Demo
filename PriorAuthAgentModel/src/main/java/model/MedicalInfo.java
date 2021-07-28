@@ -1,5 +1,17 @@
 package model;
 
+import java.io.StringReader;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+@SuppressWarnings("restriction")
 public class MedicalInfo {
 	
 	private String medication;
@@ -10,7 +22,49 @@ public class MedicalInfo {
 	private String icd9Codes;
 	private String isPregnant;
 	private String explanation;
+	
 	private PreviousMeds previousMeds;
+	
+	public MedicalInfo(String str_xml) {
+		
+		try {
+			 System.out.println(str_xml);
+	         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	         InputSource inputData = new InputSource();
+	         inputData.setCharacterStream(new StringReader(str_xml));
+	         
+	         Document doc = dBuilder.parse(inputData);
+	         
+	         doc.getDocumentElement().normalize();
+	         
+	         NodeList nList = doc.getElementsByTagName("medical_info");
+	        
+	         for (int temp = 0; temp < nList.getLength(); temp++) {
+	            Node nNode = nList.item(temp);
+	            
+	            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	               Element eElement = (Element) nNode;
+	                              
+	               this.setMedication(eElement
+	                  .getElementsByTagName("medication")
+	                  .item(0)
+	                  .getTextContent());
+	            
+	               
+	               this.setDiagnosis(eElement
+	                       .getElementsByTagName("diagnosis")
+	                       .item(0)
+	                       .getTextContent());
+	               
+	            }
+	         }
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
+		
+	}
+	
 	public String getMedication() {
 		return medication;
 	}
