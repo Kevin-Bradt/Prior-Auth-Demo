@@ -47,6 +47,8 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 				System.out.println("Start demo");
 				ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 				msg.addReceiver(getManager());
+				
+				//Content will be string xml of pa_form
 				msg.setContent("Hello");
 				msg.setConversationId("facility");
 				myAgent.send(msg);

@@ -61,6 +61,15 @@ public class ManagerAgent extends Agent implements DecisionAgent {
     	addBehaviour(new Messaging(kSession, this));
 	}
 	
+	// Drools calls this when facility sends form
+	public void breakdownForm(String str_xml) {
+		// Break apart form
+		// Send parts to approriate agents
+		// i.e. patient_info xml send to Elig. agent as string in ACL Message
+		
+		// This function will send 3 ACLMessage total
+	}
+	
 	private class Messaging extends CyclicBehaviour {
 		
 		private KieSession kSession;
@@ -85,6 +94,10 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	    	// Find service
 	    	setService(findAgent(myAgent, "service"));
 	    	System.out.println("Manager Found "+getService());
+	    	
+	    	// Find facility
+	    	setFacility(findAgent(myAgent, "facility"));
+	    	System.out.println("Manager Found "+getFacility());
 		}
 		
 		// Cycles forever

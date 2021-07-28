@@ -23,7 +23,6 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 	}
 
 	
-	
 	protected void setup() {
 		System.out.println("EligibilityAgent start");
 		
@@ -36,6 +35,18 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
     	
     	// Try receiving message
     	addBehaviour(new Messaging(kSession, this));
+	}
+	
+	// Drools calls this when agent receives form piece from manager
+	public void parseForm(String str_xml) {
+		//Parse string to xml if needed
+		//Save data into patient class or other structure
+		
+		
+		
+		//Insert this patient into Drools
+		//Fire rules to see if more info is needed
+		//If good, drools will call other method
 	}
 	
 	private class Messaging extends CyclicBehaviour {
