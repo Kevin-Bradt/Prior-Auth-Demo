@@ -4,6 +4,7 @@ package model
 //list any import classes here.
 import model.LevelOfCareAgent;
 import jade.lang.acl.ACLMessage;
+import jade.core.AID;
 
 //declare any global variables here
 

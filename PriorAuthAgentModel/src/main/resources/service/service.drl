@@ -4,6 +4,7 @@ package model
 //list any import classes here.
 import model.ServiceAgent;
 import jade.lang.acl.ACLMessage;
+import jade.core.AID;
 
 //declare any global variables here
 
@@ -18,3 +19,12 @@ rule "Your First Rule"
         System.out.println("Service Agent exists");
 end
 
+rule "Initial message"
+	when
+		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("initial-info") )
+		$s : ServiceAgent( name.equals(((AID)$r).getName()) )
+	then
+		System.out.println("Service got the message");
+		$s.parseForm($c);
+		retract($a);		
+end
