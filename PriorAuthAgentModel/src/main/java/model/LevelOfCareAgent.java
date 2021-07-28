@@ -63,8 +63,6 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 	    	setMednec(findAgent(myAgent, "mednec"));
 	    	System.out.println("LevelOfCare Found "+getMednec());
 			
-	    	
-			
 		}
 		
 		// Cycles forever
