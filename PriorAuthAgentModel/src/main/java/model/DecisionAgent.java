@@ -6,6 +6,7 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.lang.acl.ACLMessage;
 
 public interface DecisionAgent {
 	
@@ -44,6 +45,14 @@ public interface DecisionAgent {
 		}
 		
 		return aid;
+	}
+	
+	default void quickMessage(AID to, Agent from, String content, String conversation) {
+		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+		msg.addReceiver(to);
+		msg.setContent(content);
+		msg.setConversationId(conversation);
+		from.send(msg);
 	}
 	
 }
