@@ -28,7 +28,7 @@ public class MedicalInfo {
 	public MedicalInfo(String str_xml) {
 		
 		try {
-			 System.out.println(str_xml);
+			 
 	         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	         InputSource inputData = new InputSource();
@@ -38,6 +38,7 @@ public class MedicalInfo {
 	         
 	         doc.getDocumentElement().normalize();
 	         
+	         // Select element
 	         NodeList nList = doc.getElementsByTagName("medical_info");
 	        
 	         for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -45,7 +46,8 @@ public class MedicalInfo {
 	            
 	            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	               Element eElement = (Element) nNode;
-	                              
+	                            
+	               // Grab whatever data you want here
 	               this.setMedication(eElement
 	                  .getElementsByTagName("medication")
 	                  .item(0)

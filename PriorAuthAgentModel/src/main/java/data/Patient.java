@@ -44,6 +44,7 @@ public class Patient {
 	         
 	         doc.getDocumentElement().normalize();
 	         
+	         // Select element
 	         NodeList nList = doc.getElementsByTagName("patient_info");
 	        
 	         for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -52,6 +53,7 @@ public class Patient {
 	            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	               Element eElement = (Element) nNode;
 	                              
+	               // Grab whatever data you want here
 	               this.setFirstName(eElement
 	                  .getElementsByTagName("first_name")
 	                  .item(0)

@@ -114,8 +114,14 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	         NodeList insuranceInfo = doc.getElementsByTagName("insurance_info");
 
 	 		 // This function will send 3 ACLMessage total
-	         String eligibilityInfoMessage = nodeListToString(patientInfo);
-	         String providerInfoMessage = nodeListToString(physicianInfo);
+	         String eligibilityInfoMessage = "<info>\n" 
+	        		 + nodeListToString(patientInfo) + "\n"
+	        		 + nodeListToString(medicalInfo) + "\n"
+	        		 + "</info>";
+	         String providerInfoMessage = "<info>\n" 
+	        		 + nodeListToString(physicianInfo) + "\n"
+	        		 + nodeListToString(medicalInfo) + "\n"
+	        		 + "</info>";
 	         String serviceInfoMessage = nodeListToString(medicalInfo);
 	         
 	         

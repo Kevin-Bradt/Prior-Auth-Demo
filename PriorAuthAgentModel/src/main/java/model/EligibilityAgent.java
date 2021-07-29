@@ -10,6 +10,7 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
+import data.MedicalInfo;
 import data.Patient;
 
 @SuppressWarnings("restriction")
@@ -17,6 +18,7 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 		
 	private AID manager;
 	private Patient patient;
+	private MedicalInfo medicalInfo;
 	private KieSession kSession;
 
 	public AID getManager() {
@@ -45,17 +47,16 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 	// Drools calls this when agent receives form piece from manager
 	public void parseForm(String str_xml) {
 		//Parse string to xml if needed
+		//System.out.println(str_xml);
 		//Save data into patient class or other structure
-	      this.patient = new Patient(str_xml);
-	      if (this.patient != null) {
-	     	   System.out.println(this.patient.getFirstName());
-	        }
-	        else {
-	     	   System.out.println("null");
-	        }
+	    this.patient = new Patient(str_xml);
+	    this.medicalInfo = new MedicalInfo(str_xml);
+	    System.out.println(this.patient.getFirstName() + " " + this.patient.getLastName());
+	    System.out.println(this.medicalInfo.getMedication() + " " + this.medicalInfo.getDiagnosis());
 	    //insert patient into ksession
-          kSession.insert(this.patient);
-          kSession.fireAllRules();
+        kSession.insert(this.patient);
+        kSession.insert(this.medicalInfo);
+        kSession.fireAllRules();
 
 		//Insert this patient into Drools
 		//Fire rules to see if more info is needed
