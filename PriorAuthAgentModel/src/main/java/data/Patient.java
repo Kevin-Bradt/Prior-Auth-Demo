@@ -1,4 +1,4 @@
-package model;
+package data;
 
 import java.io.StringReader;
 
@@ -12,25 +12,29 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 @SuppressWarnings("restriction")
-public class Physician {
-
+public class Patient {
+	
 	private String firstName;
 	private String lastName;
-	private String credentials;
+	private String memberId;
 	private String address;
 	private String city;
 	private String state;
 	private String zipCode;
 	private String phoneNumber;
-	private String fax;
-	private String specialty;
-	private String npiNumber;
-	private String contactName;
+	private String DOB;
+	private String allergies;
+	private String primaryInsurance;
+	private String policyNumber;
+	private String groupNumber;
+	private boolean newMedication;
+	private String medicationContinued;
+	private boolean hospitalized;
 	
-	public Physician(String str_xml) {
+	public Patient(String str_xml) {
 		
 		try {
-	    	  
+	    	 
 	         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	         InputSource inputData = new InputSource();
@@ -40,7 +44,7 @@ public class Physician {
 	         
 	         doc.getDocumentElement().normalize();
 	         
-	         NodeList nList = doc.getElementsByTagName("physician_info");
+	         NodeList nList = doc.getElementsByTagName("patient_info");
 	        
 	         for (int temp = 0; temp < nList.getLength(); temp++) {
 	            Node nNode = nList.item(temp);
@@ -58,17 +62,16 @@ public class Physician {
 	                       .getElementsByTagName("last_name")
 	                       .item(0)
 	                       .getTextContent());
+	               
 	            }
 	         }
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	      }
-		
 	}
 	public String getFirstName() {
 		return firstName;
 	}
-	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -78,11 +81,11 @@ public class Physician {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getCredentials() {
-		return credentials;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setCredentials(String credentials) {
-		this.credentials = credentials;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 	public String getAddress() {
 		return address;
@@ -114,31 +117,54 @@ public class Physician {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public String getFax() {
-		return fax;
+	public String getDOB() {
+		return DOB;
 	}
-	public void setFax(String fax) {
-		this.fax = fax;
+	public void setDOB(String dOB) {
+		DOB = dOB;
 	}
-	public String getSpecialty() {
-		return specialty;
+	public String getAllergies() {
+		return allergies;
 	}
-	public void setSpecialty(String specialty) {
-		this.specialty = specialty;
+	public void setAllergies(String allergies) {
+		this.allergies = allergies;
 	}
-	public String getNpiNumber() {
-		return npiNumber;
+	public String getPrimaryInsurance() {
+		return primaryInsurance;
 	}
-	public void setNpiNumber(String npiNumber) {
-		this.npiNumber = npiNumber;
+	public void setPrimaryInsurance(String primaryInsurance) {
+		this.primaryInsurance = primaryInsurance;
 	}
-	public String getContactName() {
-		return contactName;
+	public String getPolicyNumber() {
+		return policyNumber;
 	}
-	public void setContactName(String contactName) {
-		this.contactName = contactName;
+	public void setPolicyNumber(String policyNumber) {
+		this.policyNumber = policyNumber;
 	}
-	
+	public String getGroupNumber() {
+		return groupNumber;
+	}
+	public void setGroupNumber(String groupNumber) {
+		this.groupNumber = groupNumber;
+	}
+	public boolean isNewMedication() {
+		return newMedication;
+	}
+	public void setNewMedication(boolean newMedication) {
+		this.newMedication = newMedication;
+	}
+	public String getMedicationContinued() {
+		return medicationContinued;
+	}
+	public void setMedicationContinued(String medicationContinued) {
+		this.medicationContinued = medicationContinued;
+	}
+	public boolean isHospitalized() {
+		return hospitalized;
+	}
+	public void setHospitalized(boolean hospitalized) {
+		this.hospitalized = hospitalized;
+	}
 	
 	
 }

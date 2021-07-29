@@ -1,4 +1,4 @@
-package model;
+package data;
 
 import java.io.StringReader;
 
@@ -12,29 +12,25 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 @SuppressWarnings("restriction")
-public class Patient {
-	
+public class Physician {
+
 	private String firstName;
 	private String lastName;
-	private String memberId;
+	private String credentials;
 	private String address;
 	private String city;
 	private String state;
 	private String zipCode;
 	private String phoneNumber;
-	private String DOB;
-	private String allergies;
-	private String primaryInsurance;
-	private String policyNumber;
-	private String groupNumber;
-	private boolean newMedication;
-	private String medicationContinued;
-	private boolean hospitalized;
+	private String fax;
+	private String specialty;
+	private String npiNumber;
+	private String contactName;
 	
-	public Patient(String str_xml) {
+	public Physician(String str_xml) {
 		
 		try {
-	    	 
+	    	  
 	         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	         InputSource inputData = new InputSource();
@@ -44,7 +40,7 @@ public class Patient {
 	         
 	         doc.getDocumentElement().normalize();
 	         
-	         NodeList nList = doc.getElementsByTagName("patient_info");
+	         NodeList nList = doc.getElementsByTagName("physician_info");
 	        
 	         for (int temp = 0; temp < nList.getLength(); temp++) {
 	            Node nNode = nList.item(temp);
@@ -62,16 +58,17 @@ public class Patient {
 	                       .getElementsByTagName("last_name")
 	                       .item(0)
 	                       .getTextContent());
-	               
 	            }
 	         }
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	      }
+		
 	}
 	public String getFirstName() {
 		return firstName;
 	}
+	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -81,11 +78,11 @@ public class Patient {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getMemberId() {
-		return memberId;
+	public String getCredentials() {
+		return credentials;
 	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setCredentials(String credentials) {
+		this.credentials = credentials;
 	}
 	public String getAddress() {
 		return address;
@@ -117,54 +114,31 @@ public class Patient {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public String getDOB() {
-		return DOB;
+	public String getFax() {
+		return fax;
 	}
-	public void setDOB(String dOB) {
-		DOB = dOB;
+	public void setFax(String fax) {
+		this.fax = fax;
 	}
-	public String getAllergies() {
-		return allergies;
+	public String getSpecialty() {
+		return specialty;
 	}
-	public void setAllergies(String allergies) {
-		this.allergies = allergies;
+	public void setSpecialty(String specialty) {
+		this.specialty = specialty;
 	}
-	public String getPrimaryInsurance() {
-		return primaryInsurance;
+	public String getNpiNumber() {
+		return npiNumber;
 	}
-	public void setPrimaryInsurance(String primaryInsurance) {
-		this.primaryInsurance = primaryInsurance;
+	public void setNpiNumber(String npiNumber) {
+		this.npiNumber = npiNumber;
 	}
-	public String getPolicyNumber() {
-		return policyNumber;
+	public String getContactName() {
+		return contactName;
 	}
-	public void setPolicyNumber(String policyNumber) {
-		this.policyNumber = policyNumber;
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
 	}
-	public String getGroupNumber() {
-		return groupNumber;
-	}
-	public void setGroupNumber(String groupNumber) {
-		this.groupNumber = groupNumber;
-	}
-	public boolean isNewMedication() {
-		return newMedication;
-	}
-	public void setNewMedication(boolean newMedication) {
-		this.newMedication = newMedication;
-	}
-	public String getMedicationContinued() {
-		return medicationContinued;
-	}
-	public void setMedicationContinued(String medicationContinued) {
-		this.medicationContinued = medicationContinued;
-	}
-	public boolean isHospitalized() {
-		return hospitalized;
-	}
-	public void setHospitalized(boolean hospitalized) {
-		this.hospitalized = hospitalized;
-	}
+	
 	
 	
 }
