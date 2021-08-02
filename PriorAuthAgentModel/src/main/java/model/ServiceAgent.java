@@ -11,13 +11,15 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
 import data.MedicalInfo;
+import data.Patient;
 
 @SuppressWarnings("restriction")
 public class ServiceAgent extends Agent implements DecisionAgent {
 		
-	private AID manager, levelofcare;
+	private AID manager, levelofcare, mednec;
 	
 	private MedicalInfo medicalInfo;
+	private Patient patient;
 	
 	private KieSession kSession;
 	
@@ -35,6 +37,14 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 
 	public void setLevelofcare(AID levelofcare) {
 		this.levelofcare = levelofcare;
+	}
+	
+	public AID getMednec() {
+		return mednec;
+	}
+
+	public void setMednec(AID mednec) {
+		this.mednec = mednec;
 	}
 
 	protected void setup() {
@@ -55,18 +65,18 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 		//Parse string to xml if needed
 		//Save data into patient class or other structure
 		this.medicalInfo = new MedicalInfo(str_xml);
-		if (this.medicalInfo != null) {
-     	   System.out.println(this.medicalInfo.getDiagnosis());
-        }
-        else {
-     	   System.out.println("null");
-        }
+		this.patient = new Patient(str_xml);
 
+		kSession.insert(this.patient);
 		kSession.insert(this.medicalInfo);
         kSession.fireAllRules();
 		//Insert this patient into Drools
 		//Fire rules to see if more info is needed
 		//If good, drools will call other method
+	}
+	
+	public void missingInfo(String needed_info) {
+		quickMessage(getManager(), this, needed_info, "missing-info" );
 	}
 	
 	private class Messaging extends CyclicBehaviour {
@@ -88,6 +98,10 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	    	//Find level of care
 	    	setLevelofcare(findAgent(myAgent, "levelofcare"));
 	    	System.out.println("Service Found "+getLevelofcare());
+	    	
+	    	//Find med nec
+	    	setMednec(findAgent(myAgent, "mednec"));
+	    	System.out.println("Service Found "+getMednec());
 		}
 		
 		public void action() {

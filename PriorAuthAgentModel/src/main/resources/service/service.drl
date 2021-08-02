@@ -3,6 +3,8 @@ package model
 
 //list any import classes here.
 import model.ServiceAgent;
+import data.MedicalInfo;
+import data.Patient;
 import jade.lang.acl.ACLMessage;
 import jade.core.AID;
 
@@ -28,3 +30,27 @@ rule "Initial message"
 		$s.parseForm($c);
 		retract($a);		
 end
+
+rule "Send cpt and icd codes"
+	when
+		$m : MedicalInfo( !cptCode.equals(""), !icd10Codes.equals(""), $c : cptCode, $i : icd10Codes )
+		$p : Patient ( hospitalized != null, $h : hospitalized )
+		$s : ServiceAgent( )
+	then
+		System.out.println("Success both cpt and icd");
+		$s.quickMessage($s.getLevelofcare(), $s, $c + "-" + $i + "-" + String.valueOf($h), "med-codes");
+		$s.quickMessage($s.getMednec(), $s, $c + "-" + $i, "med-codes");
+end
+
+rule "Missing cpt and icd codes"
+	when
+		$m : MedicalInfo( cptCode.equals("") || icd10Codes.equals("") )
+		$s : ServiceAgent( )
+	then
+		System.out.println("Missing cpt/icd");
+		$s.missingInfo("cpt_code,icd_10");
+end
+		
+		
+		
+		
