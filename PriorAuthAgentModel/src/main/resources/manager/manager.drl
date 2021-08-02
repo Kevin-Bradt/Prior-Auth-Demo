@@ -21,10 +21,10 @@ end
 
 rule "PA Form"
 	when
-		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("facility-pa-request") )
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("facility-pa-request"), $send.equals("Facility") )
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
-		System.out.println("Manager got PA Request");
+		System.out.println("Manager got PA Request from " + $send);
 		$m.breakdownForm($c);
 		retract($a);		
 end

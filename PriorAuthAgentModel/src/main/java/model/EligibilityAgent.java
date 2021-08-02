@@ -51,8 +51,9 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 		//Save data into patient class or other structure
 	    this.patient = new Patient(str_xml);
 	    this.medicalInfo = new MedicalInfo(str_xml);
-	    System.out.println(this.patient.getFirstName() + " " + this.patient.getLastName());
-	    System.out.println(this.medicalInfo.getMedication() + " " + this.medicalInfo.getDiagnosis());
+	    //System.out.println(this.patient.getFirstName() + " " + this.patient.getLastName());
+	    //System.out.println(this.medicalInfo.getMedication() + " " + this.medicalInfo.getDiagnosis());
+	    
 	    //insert patient into ksession
         kSession.insert(this.patient);
         kSession.insert(this.medicalInfo);
