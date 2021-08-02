@@ -3,6 +3,7 @@ package model;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -12,6 +13,11 @@ import jade.lang.acl.ACLMessage;
 public class LevelOfCareAgent extends Agent implements DecisionAgent {
 	
 	private AID service, mednec;
+	
+	private String icd10 = "";
+	private boolean hospitalized;
+	private Integer esi_level;
+	
 	
 	public AID getService() {
 		return service;
@@ -29,12 +35,36 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 		this.mednec = mednec;
 	}
 
+	public String getIcd10() {
+		return icd10;
+	}
+
+	public void setIcd10(String icd10) {
+		this.icd10 = icd10;
+	}
+
+	public Integer getEsi_level() {
+		return esi_level;
+	}
+
+	public void setEsi_level(Integer esi_level) {
+		this.esi_level = esi_level;
+	}
+
+	public boolean isHospitalized() {
+		return hospitalized;
+	}
+
+	public void setHospitalized(boolean hospitalized) {
+		this.hospitalized = hospitalized;
+	}
+
 	protected void setup() {
 		System.out.println("LevelOfCareAgent start");
 		
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
-    	KieSession kSession = kContainer.newKieSession("ksession-levelofcare");
+	    KieSession kSession = kContainer.newKieSession("ksession-levelofcare");
     	
     	// Register the eligibility agent in the yellow pages
     	registerAgent(this, getAID(), "levelofcare");
@@ -42,6 +72,12 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
     	// Try receiving message
     	addBehaviour(new Messaging(kSession, this));
 	}
+	
+	public void parseContent(String str) {
+		this.icd10 = str.split("-")[1];
+		this.hospitalized = str.split("-")[2].equals("true");
+	}
+	
 	
 	private class Messaging extends CyclicBehaviour {
 		
