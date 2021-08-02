@@ -65,6 +65,11 @@ public class Patient {
 	                       .item(0)
 	                       .getTextContent());
 	               
+	               this.setHospitalized(eElement
+	                       .getElementsByTagName("hospitalized")
+	                       .item(0)
+	                       .getTextContent().equals("true"));
+	               
 	            }
 	         }
 	      } catch (Exception e) {

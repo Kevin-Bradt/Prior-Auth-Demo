@@ -122,7 +122,10 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	        		 + nodeListToString(physicianInfo) + "\n"
 	        		 + nodeListToString(medicalInfo) + "\n"
 	        		 + "</info>";
-	         String serviceInfoMessage = nodeListToString(medicalInfo);
+	         String serviceInfoMessage = "<info>\n" 
+	        		 + nodeListToString(patientInfo) + "\n"
+	        		 + nodeListToString(medicalInfo) + "\n"
+	        		 + "</info>";
 	         
 	         
 	         quickMessage(getEligibility(),this,eligibilityInfoMessage,"initial-info");

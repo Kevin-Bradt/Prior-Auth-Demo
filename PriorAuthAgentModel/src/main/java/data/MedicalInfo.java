@@ -19,7 +19,8 @@ public class MedicalInfo {
 	private String directions;
 	private String diagnosis;
 	private String HIVorAIDS;
-	private String icd9Codes;
+	private String cptCode;
+	private String icd10Codes;
 	private String isPregnant;
 	private String explanation;
 	
@@ -56,6 +57,16 @@ public class MedicalInfo {
 	               
 	               this.setDiagnosis(eElement
 	                       .getElementsByTagName("diagnosis")
+	                       .item(0)
+	                       .getTextContent());
+	               
+	               this.setCptCode(eElement
+	                       .getElementsByTagName("cpt_code")
+	                       .item(0)
+	                       .getTextContent());
+	               
+	               this.setIcd10Codes(eElement
+	                       .getElementsByTagName("icd_10")
 	                       .item(0)
 	                       .getTextContent());
 	               
@@ -97,11 +108,17 @@ public class MedicalInfo {
 	public void setHIVorAIDS(String hIVorAIDS) {
 		HIVorAIDS = hIVorAIDS;
 	}
-	public String getIcd9Codes() {
-		return icd9Codes;
+	public String getCptCode() {
+		return cptCode;
 	}
-	public void setIcd9Codes(String icd9Codes) {
-		this.icd9Codes = icd9Codes;
+	public void setCptCode(String cptCode) {
+		this.cptCode = cptCode;
+	}
+	public String getIcd10Codes() {
+		return icd10Codes;
+	}
+	public void setIcd10Codes(String icd10Codes) {
+		this.icd10Codes = icd10Codes;
 	}
 	public String getIsPregnant() {
 		return isPregnant;

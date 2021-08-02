@@ -9,7 +9,7 @@ import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-
+import data.MedicalInfo;
 import data.Physician;
 
 @SuppressWarnings("restriction")
@@ -18,6 +18,7 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 	private AID manager;
 	
 	private Physician physician;
+	private MedicalInfo medicalInfo;
 	
 	private KieSession kSession;
 	
@@ -47,12 +48,7 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 		//Parse string to xml if needed
 		//Save data into patient class or other structure
 		this.physician = new Physician(str_xml);
-		if (this.physician != null) {
-			System.out.println(this.physician.getFirstName());
-	        }
-	    else {
-	    	System.out.println("null");
-	         }
+		this.medicalInfo = new MedicalInfo(str_xml);
 		
         kSession.insert(this.physician);
         kSession.fireAllRules();
