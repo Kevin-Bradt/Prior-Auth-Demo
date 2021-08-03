@@ -11,13 +11,6 @@ import jade.core.AID;
 
 
 
-rule "Your First Rule"
-
-    when
-        LevelOfCareAgent()
-    then
-        System.out.println("LevelOfCare Agent exists");
-end
 
 rule "Initial message"
 	when
@@ -39,7 +32,7 @@ rule "Score report"
 end
 
 		
-// ESI Levels - based on simple facts
+/* ESI Levels - based on simple facts */
 
 // Most severe
 rule "ESI 1"
@@ -56,7 +49,7 @@ rule "ESI 2"
 		$l : LevelOfCareAgent( isHospitalized(), icd10.equals("D83.9") )
 	then
 		$l.setEsi_level(2);
-		System.out.println("Set ESI 2");
+		System.out.println("LoC: ESI level 2");
 end
 
 rule "ESI 3"
@@ -64,7 +57,7 @@ rule "ESI 3"
 		$l : LevelOfCareAgent( isHospitalized(), !icd10.equals("D83.9"), !icd10.equals("") )
 	then
 		$l.setEsi_level(3);
-		System.out.println("Set ESI 3");
+		System.out.println("LoC: ESI level 3");
 end
 
 rule "ESI 4"
@@ -72,7 +65,7 @@ rule "ESI 4"
 		$l : LevelOfCareAgent( !isHospitalized(), icd10.equals("D83.9") )
 	then
 		$l.setEsi_level(4);
-		System.out.println("Set ESI 4");
+		System.out.println("LoC: ESI level 4");
 end
 
 // Least severe
@@ -81,5 +74,5 @@ rule "ESI 5"
 		$l : LevelOfCareAgent( !isHospitalized(), !icd10.equals("D83.9"), !icd10.equals("") )
 	then
 		$l.setEsi_level(5);
-		System.out.println("Set ESI 5");
+		System.out.println("LoC: ESI level 5");
 end

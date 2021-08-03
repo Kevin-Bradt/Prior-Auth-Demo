@@ -14,20 +14,12 @@ import jade.core.AID;
 
 
 
-rule "Your First Rule"
-
-    when
-        EligibilityAgent()
-    then
-        System.out.println("Eligibility Agent exists");
-end
 
 rule "Initial message"
 	when
 		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("initial-info") )
 		$e : EligibilityAgent( name.equals(((AID)$r).getName()) )
 	then
-		System.out.println("Eligibility got the message");
 		$e.parseForm($c);
 		retract($a);		
 end

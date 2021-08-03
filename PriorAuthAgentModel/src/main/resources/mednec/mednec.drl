@@ -27,15 +27,7 @@ rule "Init"
         insert( new AcceptedDiagnoses(new HashSet<>(Arrays.asList("D83.9", "D69.3", "C91.1", "M30.3"))) );
 end
 
-rule "Agent existence"
-
-    when
-        MedNecAgent()
-    then
-        System.out.println("MedNec Agent exists");
-end
-
-//---- Messages-----
+/*---- Messages-----*/
 rule "Initial message"
 	when
 		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("med-codes") )
@@ -55,7 +47,8 @@ rule "ESI return"
 		retract($a);		
 end
 
-// ----Determine medical necessity based on esi and diagnosis----
+
+/* ----Determine medical necessity based on esi and diagnosis---- */
 rule "Emergency approval"
 	when
 		$m : MedNecAgent( Esi_level <= 2 )
@@ -67,7 +60,7 @@ end
 rule "Diagnosis is serious"
 	when
 		$m : MedNecAgent( Esi_level > 2, $i : icd10 )
-		AcceptedDiagnoses(codes contains $i)
+		AcceptedDiagnoses( codes contains $i )
 	then
 		System.out.println("Med nec approves based on diagnosis "+$i);
 		$m.quickMessage($m.getService(), $m, "valid condition", "med-nec-approve");

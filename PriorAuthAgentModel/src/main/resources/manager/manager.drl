@@ -11,13 +11,6 @@ import jade.core.AID;
 
 
 
-rule "Your First Rule"
-
-    when
-        ManagerAgent()
-    then
-        System.out.println("Manager Agent exists");
-end
 
 rule "PA Form"
 	when

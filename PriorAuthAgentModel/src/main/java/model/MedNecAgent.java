@@ -40,7 +40,6 @@ public class MedNecAgent extends Agent implements DecisionAgent {
 
 	public void setEsi_level(Integer esi_level) {
 		this.esi_level = esi_level;
-		System.out.println("We made it "+this.esi_level);
 	}
 
 	public String getCpt() {

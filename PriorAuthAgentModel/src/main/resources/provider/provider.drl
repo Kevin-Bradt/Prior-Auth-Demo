@@ -11,20 +11,11 @@ import jade.core.AID;
 
 
 
-rule "Your First Rule"
-
-    when
-        ProviderAgent()
-    then
-        System.out.println("Provider Agent exists");
-end
-
 rule "Initial message"
 	when
 		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("initial-info") )
 		$p : ProviderAgent( name.equals(((AID)$r).getName()) )
 	then
-		System.out.println("Provider got the message");
 		$p.parseForm($c);
 		retract($a);		
 end
