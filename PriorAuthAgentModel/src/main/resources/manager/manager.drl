@@ -14,10 +14,30 @@ import jade.core.AID;
 
 rule "PA Form"
 	when
-		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("facility-pa-request"), $send.equals("Facility") )
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("facility-pa-request"))
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
 		System.out.println("Manager got PA Request from " + $send);
 		$m.breakdownForm($c);
 		retract($a);		
 end
+
+rule "Eligibility Approval"
+	when
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("eligibility-approval"))
+		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
+	then
+		System.out.println("Manager got approval from the eligibility agent!");
+		retract($a);		
+end
+
+rule "Eligibility Denial"
+	when
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("eligibility-denial"))
+		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
+	then
+		System.out.println("Manager got denial from the eligibility agent...");
+		
+		retract($a);		
+end
+

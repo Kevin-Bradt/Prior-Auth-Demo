@@ -26,6 +26,7 @@ public class Physician {
 	private String specialty;
 	private String npiNumber;
 	private String contactName;
+	private boolean inNetwork = false; // This will be updated by the eligibility agent
 	
 	public Physician(String str_xml) {
 		
@@ -58,6 +59,11 @@ public class Physician {
 	                       .getElementsByTagName("last_name")
 	                       .item(0)
 	                       .getTextContent());
+	               
+	               this.setNpiNumber(eElement
+	            		   .getElementsByTagName("npi_num")
+	            		   .item(0)
+	            		   .getTextContent());
 	            }
 	         }
 	      } catch (Exception e) {
@@ -107,6 +113,12 @@ public class Physician {
 	}
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
+	}
+	public void setInNetwork(boolean inn) {
+		this.inNetwork = inn;
+	}
+	public boolean getInNetwork() {
+		return inNetwork;
 	}
 	public String getPhoneNumber() {
 		return phoneNumber;

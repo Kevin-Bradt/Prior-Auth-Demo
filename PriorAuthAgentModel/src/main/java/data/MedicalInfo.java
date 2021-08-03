@@ -69,7 +69,10 @@ public class MedicalInfo {
 	                       .getElementsByTagName("icd_10")
 	                       .item(0)
 	                       .getTextContent());
-	               
+	               this.setExplanation(eElement
+	            		   .getElementsByTagName("explanation")
+	            		   .item(0)
+	            		   .getTextContent());
 	            }
 	         }
 	      } catch (Exception e) {

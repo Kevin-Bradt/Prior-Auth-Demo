@@ -12,6 +12,8 @@ import jade.lang.acl.ACLMessage;
 
 import data.MedicalInfo;
 import data.Patient;
+import data.Physician;
+import policies.Policy;
 
 @SuppressWarnings("restriction")
 public class EligibilityAgent extends Agent implements DecisionAgent {
@@ -19,6 +21,8 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 	private AID manager;
 	private Patient patient;
 	private MedicalInfo medicalInfo;
+	private Policy policy;
+	private Physician physician;
 	private KieSession kSession;
 
 	public AID getManager() {
@@ -51,12 +55,16 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 		//Save data into patient class or other structure
 	    this.patient = new Patient(str_xml);
 	    this.medicalInfo = new MedicalInfo(str_xml);
+	    this.physician = new Physician(str_xml);
+	    this.policy = new Policy();
 	    //System.out.println(this.patient.getFirstName() + " " + this.patient.getLastName());
 	    //System.out.println(this.medicalInfo.getMedication() + " " + this.medicalInfo.getDiagnosis());
 	    
 	    //insert patient into ksession
         kSession.insert(this.patient);
         kSession.insert(this.medicalInfo);
+        kSession.insert(this.physician);
+        kSession.insert(this.policy);
         kSession.fireAllRules();
 
 		//Insert this patient into Drools

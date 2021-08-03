@@ -13,12 +13,19 @@ public class Policy {
 	boolean referral_req = false;
 	
 	// Coverage and limitations
+	String[] net_npis = {"0000", "0001", "0002", "0003", "0004", "0005", "0006", "0007", "0008", "0009"}; // Sample npis in network
 	String[] oon_covered = {"emergency"}; // Policy only covers out of network if it is an emergency
-	String[] net_covered = {"immunization", "rating A", "rating B", "contraceptive"}; // These aren't ever really explicitly stated
-	String[] net_not_covered = {"cosmetic", "ambulance", "sexual dysfunction", "biomedical device", "dental", "experimental service", "intoxicated injury"};
+	//String[] net_covered = {"immunization", "rating A", "rating B", "contraceptive"}; // These aren't ever really explicitly stated
+	String[] net_not_covered = {"cosmetic", "ambulance", "sexual dysfunction", "biomedical device", "dental", "experimental service", "intoxicated injury", "preventative care"};
 	
 	public String getPolicy_num() {
 		return policy_num;
+	}
+	public String[] getNet_npis() {
+		return net_npis;
+	}
+	public void setNet_npis(String[] net_npis) {
+		this.net_npis = net_npis;
 	}
 	public void setPolicy_num(String policy_num) {
 		this.policy_num = policy_num;
@@ -77,12 +84,12 @@ public class Policy {
 	public void setOon_covered(String[] oon_covered) {
 		this.oon_covered = oon_covered;
 	}
-	public String[] getNet_covered() {
+	/*public String[] getNet_covered() {
 		return net_covered;
 	}
 	public void setNet_covered(String[] net_covered) {
 		this.net_covered = net_covered;
-	}
+	}*/
 	public String[] getNet_not_covered() {
 		return net_not_covered;
 	}

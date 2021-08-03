@@ -61,6 +61,10 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	public void setFacility(AID facility) {
 		this.facility = facility;
 	}
+	
+	public void deny() {
+		System.out.println("Prior Authorization Denied. For request #" + "put number here");
+	}
 
 	@SuppressWarnings("restriction")
 	private static String nodeListToString(NodeList nodes) throws TransformerException {
@@ -117,6 +121,7 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	         String eligibilityInfoMessage = "<info>\n" 
 	        		 + nodeListToString(patientInfo) + "\n"
 	        		 + nodeListToString(medicalInfo) + "\n"
+	        		 + nodeListToString(physicianInfo) + "\n"
 	        		 + "</info>";
 	         String providerInfoMessage = "<info>\n" 
 	        		 + nodeListToString(physicianInfo) + "\n"
