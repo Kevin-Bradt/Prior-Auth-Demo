@@ -14,7 +14,7 @@ import jade.core.AID;
 
 rule "PA Form"
 	when
-		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("facility-pa-request"))
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("facility-pa-request") )
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
 		System.out.println("Manager got PA Request from " + $send);
