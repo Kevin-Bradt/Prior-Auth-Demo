@@ -26,6 +26,8 @@ public class Physician {
 	private String specialty;
 	private String npiNumber;
 	private String contactName;
+	private String hospitalName;
+	
 	private boolean inNetwork = false; // This will be updated by the eligibility agent
 	
 	public Physician(String str_xml) {
@@ -62,6 +64,21 @@ public class Physician {
 	               
 	               this.setNpiNumber(eElement
 	            		   .getElementsByTagName("npi_num")
+	            		   .item(0)
+	            		   .getTextContent());
+	               
+	               this.setCredentials(eElement
+	            		   .getElementsByTagName("credential")
+	            		   .item(0)
+	            		   .getTextContent());
+	               
+	               this.setHospitalName(eElement
+	            		   .getElementsByTagName("hospital")
+	            		   .item(0)
+	            		   .getTextContent());
+	               
+	               this.setContactName(eElement
+	            		   .getElementsByTagName("contact_name")
 	            		   .item(0)
 	            		   .getTextContent());
 	            }
@@ -150,7 +167,11 @@ public class Physician {
 	public void setContactName(String contactName) {
 		this.contactName = contactName;
 	}
-	
-	
+	public String getHospitalName() {
+		return hospitalName;
+	}
+	public void setHospitalName(String hospitalName) {
+		this.hospitalName = hospitalName;
+	}
 	
 }

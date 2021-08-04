@@ -41,3 +41,22 @@ rule "Eligibility Denial"
 		retract($a);		
 end
 
+rule "Provider Approval"
+	when
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("provider-approval"))
+		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
+	then
+		System.out.println("Manager got approval from the provider agent!");
+		retract($a);		
+end
+
+rule "Provider Denial"
+	when
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("provider-denial"))
+		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
+	then
+		System.out.println("Manager got denial from the provider agent...");
+		
+		retract($a);		
+end
+
