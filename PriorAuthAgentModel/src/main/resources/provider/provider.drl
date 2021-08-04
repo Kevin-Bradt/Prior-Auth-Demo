@@ -19,7 +19,6 @@ rule "Initial message" salience 1
 		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("initial-info") )
 		$p : ProviderAgent( name.equals(((AID)$r).getName()) )
 	then
-		System.out.println("Provider got the message");
 		$p.parseForm($c);
 		retract($a);		
 end
@@ -28,7 +27,7 @@ rule "Check physician name" salience 1
 	when
 		$p : Physician (!firstName.equals(""), !lastName.equals(""), !credentials.equals(""), $c : credentials, $f : firstName, $l : lastName)
 	then
-		System.out.println("Physician Name: " + $l + ", " + $f + " (" + $c + ")");	
+		//System.out.println("Physician Name: " + $l + ", " + $f + " (" + $c + ")");	
 end
 
 rule "Missing physician info" salience 1
@@ -42,7 +41,7 @@ rule "Check physician hospital" salience 1
 	when
 		$p : Physician (!hospitalName.equals(""), $h : hospitalName)
 	then
-		System.out.println("Physician Hospital: " + $h);	
+		//System.out.println("Physician Hospital: " + $h);	
 end
 
 

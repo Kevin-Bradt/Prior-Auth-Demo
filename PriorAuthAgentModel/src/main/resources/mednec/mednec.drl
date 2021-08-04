@@ -53,7 +53,7 @@ rule "Emergency approval"
 	when
 		$m : MedNecAgent( Esi_level <= 2 )
 	then
-		System.out.println("Med nec approves as it is an emergency");
+		System.out.println("Med nec approves: emergency");
 		$m.quickMessage($m.getService(), $m, "emergency approval", "med-nec-approve");
 end
 
@@ -62,7 +62,7 @@ rule "Diagnosis is serious"
 		$m : MedNecAgent( Esi_level > 2, $i : icd10 )
 		AcceptedDiagnoses( codes contains $i )
 	then
-		System.out.println("Med nec approves based on diagnosis "+$i);
+		System.out.println("Med nec approves: diagnosis "+$i);
 		$m.quickMessage($m.getService(), $m, "valid condition", "med-nec-approve");
 end
 

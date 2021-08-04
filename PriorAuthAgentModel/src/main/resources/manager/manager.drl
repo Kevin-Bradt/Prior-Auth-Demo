@@ -55,7 +55,23 @@ rule "Provider Denial"
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
 		System.out.println("Manager got denial from the provider agent...");
-		
 		retract($a);		
 end
 
+rule "Service Approval"
+	when
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("service-approval"))
+		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
+	then
+		System.out.println("Manager got approval from the service agent!");
+		retract($a);		
+end
+
+rule "Service Denial"
+	when
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("service-denial"))
+		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
+	then
+		System.out.println("Manager got denial from the service agent...");
+		retract($a);		
+end

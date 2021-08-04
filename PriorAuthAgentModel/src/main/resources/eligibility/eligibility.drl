@@ -38,14 +38,14 @@ rule "Check name"
 		$p : Patient( $f : firstName, $l : lastName )
 		$i : MedicalInfo( $m : medication, $d : diagnosis )
 	then
-		System.out.println("Patient: " + $l + ", " +$f);
+		//System.out.println("Patient: " + $l + ", " +$f);
 end
 
 rule "Check treatment"
 	when 
 		$i : MedicalInfo( $m : medication, $d : diagnosis )
 	then
-		System.out.println("Treatment: " + $m + " for " +$d);
+		//System.out.println("Treatment: " + $m + " for " +$d);
 end
 
 rule "In Network" salience 1
@@ -53,7 +53,7 @@ rule "In Network" salience 1
 		$p : Physician( $n : npiNumber )
 		$pc : Policy( $npis : net_npis, net_npis contains $n )
 	then
-		System.out.println("Provider is in network");
+		//System.out.println("Provider is in network");
 		$p.setInNetwork(true);
 end
 
@@ -62,7 +62,7 @@ rule "Out of Network" salience 1
 		$p : Physician( $n : npiNumber )
 		$pc : Policy( $npis : net_npis, !(net_npis contains $n) )
 	then
-		System.out.println("Provider is out of network");
+		//System.out.println("Provider is out of network");
 		$p.setInNetwork(false);
 end
 
