@@ -16,8 +16,50 @@ public class Policy {
 	String[] net_npis = {"0000", "0001", "0002", "0003", "0004", "0005", "0006", "0007", "0008", "0009"}; // Sample npis in network
 	String[] oon_covered = {"emergency"}; // Policy only covers out of network if it is an emergency
 	//String[] net_covered = {"immunization", "rating A", "rating B", "contraceptive"}; // These aren't ever really explicitly stated
-	String[] net_not_covered = {"cosmetic", "ambulance", "sexual dysfunction", "biomedical device", "dental", "experimental service", "intoxicated injury", "preventative care"};
+	String[] net_not_covered = {"cosmetic", "ambulance", "sexual dysfunction", "biomedical device", "dental", "experimental service", "intoxicated injury"};
 	
+	public Policy (String key) {
+		if (key.equals("2")) {
+			this.policy_num = "223-456-789";
+			this.premium = 10000.0;
+			this.premium_mode = "monthly";
+			this.deductable_amnt = 5000;
+			this.ded_max_persons = 4;
+			this.coinsurance = 0.5;
+			this.oop_max = 20000;
+			this.oop_max_person = 4;
+			this.referral_req = false;
+			
+			String[] temp_nn = {"0000"};
+			this.net_npis = temp_nn;
+			String[] temp_oc = {"emergency", "ambulance"};
+			this.oon_covered = temp_oc;
+			String[] temp_nnc = {"experimental service", "intoxicated injury"};
+			this.net_not_covered = temp_nnc;
+		} else if (key.equals("3")) {
+			this.policy_num = "323-456-789";
+			this.premium = 2000.0;
+			this.premium_mode = "quarterly";
+			this.deductable_amnt = 1000;
+			this.ded_max_persons = 2;
+			this.coinsurance = 0.9;
+			this.oop_max = 10000;
+			this.oop_max_person = 2;
+			this.referral_req = false;
+			
+			String[] temp_nn = {"0000", "0001", "0002"};
+			this.net_npis = temp_nn;
+			String[] temp_oc = {};
+			this.oon_covered = temp_oc;
+			String[] temp_nnc = {"cosmetic", "ambulance", "sexual dysfunction", "biomedical device", "dental", "experimental service", "intoxicated injury", "preventative care", "mental health"};
+			this.net_not_covered = temp_nnc;
+		}
+	}
+	
+	public Policy() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getPolicy_num() {
 		return policy_num;
 	}
