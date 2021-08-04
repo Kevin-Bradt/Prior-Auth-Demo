@@ -1,5 +1,10 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
@@ -19,6 +24,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 	}
 
 	private FacilityGui myGui;
+	
 	
 	protected void setup() {
 		System.out.println("FacilityAgent start");
@@ -41,6 +47,22 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 		myGui.dispose();
 	}
 	
+	public String readFile(String string) throws IOException {
+	  File f = new File(string);
+  	  Reader fileReader = new FileReader(f); 
+  	  BufferedReader bufReader = new BufferedReader(fileReader); 
+  	  StringBuilder sb = new StringBuilder(); 
+  	  String line = bufReader.readLine(); 
+  	  while( line != null){ 
+  		  sb.append(line).append("\n"); 
+  		  line = bufReader.readLine(); 
+  		  } 
+  	  String inputString = sb.toString(); 
+//  	  System.out.println(inputString);
+  	  bufReader.close();
+  	  return inputString;
+	}
+	
 	public void startDemo() {
 		addBehaviour(new OneShotBehaviour() {
 			public void action() {
@@ -49,6 +71,13 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 				msg.addReceiver(getManager());
 				
 				//Content will be string xml of pa_form
+//				try {
+//					String inputString = readFile("PAform.xml");
+//					msg.setContent(inputString);
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				msg.setContent("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 						+ "<pa_form>\n"
 						+ "	<date>07/21/2021</date>\n"
