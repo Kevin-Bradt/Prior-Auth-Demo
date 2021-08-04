@@ -25,7 +25,7 @@ public class FacilityGui extends JFrame {
 		JButton startButton = new JButton("Start Demo");
 		startButton.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				myAgent.startDemo();
+				myAgent.startDemo("PAform.xml");
 //				startButton.setVisible(false);
 //				lab.setText("Demo Started");
 				
@@ -41,7 +41,7 @@ public class FacilityGui extends JFrame {
 		JButton startButton2 = new JButton("Start Demo");
 		startButton2.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				myAgent.startDemo();
+				myAgent.startDemo("PADenied.xml");
 //				startButton.setVisible(false);
 //				lab.setText("Demo Started");
 				
@@ -57,7 +57,7 @@ public class FacilityGui extends JFrame {
 		JButton startButton3 = new JButton("Start Demo");
 		startButton3.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				myAgent.startDemo();
+				myAgent.startDemo("PAform.xml");
 //				startButton.setVisible(false);
 //				lab.setText("Demo Started");
 				
