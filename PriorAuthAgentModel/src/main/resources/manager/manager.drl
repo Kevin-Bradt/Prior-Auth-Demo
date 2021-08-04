@@ -37,7 +37,6 @@ rule "Eligibility Denial"
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
 		System.out.println("Manager got denial from the eligibility agent...");
-		
 		retract($a);		
 end
 

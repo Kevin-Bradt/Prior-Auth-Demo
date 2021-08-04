@@ -26,8 +26,8 @@ public class FacilityGui extends JFrame {
 		startButton.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				myAgent.startDemo();
-				startButton.setVisible(false);
-				lab.setText("Demo Started");
+//				startButton.setVisible(false);
+//				lab.setText("Demo Started");
 				
 			}
 		} );
