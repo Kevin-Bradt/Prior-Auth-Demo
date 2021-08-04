@@ -16,13 +16,13 @@ public class FacilityGui extends JFrame {
 		
 		myAgent = a;
 	
-		JPanel p = new JPanel();
 		
-		getContentPane().add(p, BorderLayout.CENTER);
-		JLabel lab = new JLabel("Click here to start demo:");
+		JPanel p = new JPanel();
+		getContentPane().add(p, BorderLayout.NORTH);
+		
+		JLabel lab = new JLabel("Click here to start demo #1:");
 		p.add(lab);
 		JButton startButton = new JButton("Start Demo");
-
 		startButton.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				myAgent.startDemo();
@@ -31,9 +31,43 @@ public class FacilityGui extends JFrame {
 				
 			}
 		} );
-		p = new JPanel();
 		p.add(startButton);
+		
+		p = new JPanel();
+		getContentPane().add(p, BorderLayout.CENTER);
+		
+		JLabel lab2 = new JLabel("Click here to start demo #2:");
+		p.add(lab2);
+		JButton startButton2 = new JButton("Start Demo");
+		startButton2.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				myAgent.startDemo();
+//				startButton.setVisible(false);
+//				lab.setText("Demo Started");
+				
+			}
+		} );
+		p.add(startButton2);
+		
+		p = new JPanel();
 		getContentPane().add(p, BorderLayout.SOUTH);
+		
+		JLabel lab3 = new JLabel("Click here to start demo #3:");
+		p.add(lab3);
+		JButton startButton3 = new JButton("Start Demo");
+		startButton3.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				myAgent.startDemo();
+//				startButton.setVisible(false);
+//				lab.setText("Demo Started");
+				
+			}
+		} );
+		p.add(startButton3);
+		
+		
+		
+		
 		
 		
 		setResizable(false);

@@ -39,6 +39,7 @@ rule "Eligibility Denial"
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
 		System.out.println("Manager got denial from the eligibility agent...");
+		System.out.println("PA REQUEST DENIED");
 		retract($a);		
 end
 
@@ -59,6 +60,7 @@ rule "Provider Denial"
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
 		System.out.println("Manager got denial from the provider agent...");
+		System.out.println("PA REQUEST DENIED");
 		retract($a);		
 end
 
@@ -79,6 +81,7 @@ rule "Service Denial"
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
 		System.out.println("Manager got denial from the service agent...");
+		System.out.println("PA REQUEST DENIED");
 		retract($a);		
 end
 
