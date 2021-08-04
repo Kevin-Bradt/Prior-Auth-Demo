@@ -62,7 +62,7 @@ rule "Diagnosis is serious"
 		$m : MedNecAgent( Esi_level > 2, $i : icd10 )
 		AcceptedDiagnoses( codes contains $i )
 	then
-		System.out.println("Med nec approves: diagnosis "+$i);
+		System.out.println("Med nec approves: diagnosis "+$i+" valid");
 		$m.quickMessage($m.getService(), $m, "valid condition", "med-nec-approve");
 end
 
@@ -71,6 +71,6 @@ rule "Other"
 		$m : MedNecAgent( Esi_level > 2, $i : icd10 )
 		AcceptedDiagnoses( !(codes contains $i) )
 	then
-		System.out.println("Med nec denies");
+		System.out.println("Med nec denies: diagnosis "+$i+" invalid");
 		$m.quickMessage($m.getService(), $m, "denial", "med-nec-deny");
 end

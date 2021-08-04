@@ -22,8 +22,8 @@
 	<insurance_info>
 	</insurance_info>
 	<physician_info>
-		<first_name></first_name>
-		<last_name>Smith</last_name>
+		<first_name>Susan</first_name>
+		<last_name>Adams</last_name>
 		<credential>M.D.</credential>
 		<address>11000 Optum Cir</address>
 		<city>Eden Prairie</city>
@@ -34,16 +34,16 @@
 		<npi_num>1001</npi_num>
 		<specialty>injections</specialty>
 		<contact_name>Burt</contact_name>
-		<hospital>Methodist Hospital</hospital>
+		<hospital>Fairview Hospital</hospital>
 	</physician_info>
 	<medical_info>
 		<medication>IgIV</medication>
 		<strength>300mg</strength>
 		<directions>infusion</directions>
-		<diagnosis>Primary immunodeficiency</diagnosis>
+		<diagnosis>Type 2 Diabetes</diagnosis>
 		<hiv_aids>false</hiv_aids>
 		<cpt_code>90283</cpt_code>
-		<icd_10>D83.9</icd_10>
+		<icd_10>E11.9</icd_10>
 		<pregnant>false</pregnant>
 		<explanation>preventative care</explanation>
 		<prev_medications>
