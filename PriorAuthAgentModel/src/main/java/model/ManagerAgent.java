@@ -30,6 +30,8 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		
 	private AID eligibility, provider, service, facility;
 	
+	private boolean elig, prov, serv;
+	
 	public AID getEligibility() {
 		return eligibility;
 	}
@@ -62,6 +64,30 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		this.facility = facility;
 	}
 	
+	public boolean isElig() {
+		return elig;
+	}
+
+	public void setElig(boolean elig) {
+		this.elig = elig;
+	}
+
+	public boolean isProv() {
+		return prov;
+	}
+
+	public void setProv(boolean prov) {
+		this.prov = prov;
+	}
+
+	public boolean isServ() {
+		return serv;
+	}
+
+	public void setServ(boolean serv) {
+		this.serv = serv;
+	}
+
 	public void deny() {
 		System.out.println("Prior Authorization Denied. For request #" + "put number here");
 	}

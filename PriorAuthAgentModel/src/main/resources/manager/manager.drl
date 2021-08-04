@@ -28,6 +28,8 @@ rule "Eligibility Approval"
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
 		System.out.println("Manager got approval from the eligibility agent!");
+		$m.setElig(true);
+		update($m);
 		retract($a);		
 end
 
@@ -46,6 +48,8 @@ rule "Provider Approval"
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
 		System.out.println("Manager got approval from the provider agent!");
+		$m.setProv(true);
+		update($m);
 		retract($a);		
 end
 
@@ -64,6 +68,8 @@ rule "Service Approval"
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
 		System.out.println("Manager got approval from the service agent!");
+		$m.setServ(true);
+		update($m);
 		retract($a);		
 end
 
@@ -74,4 +80,16 @@ rule "Service Denial"
 	then
 		System.out.println("Manager got denial from the service agent...");
 		retract($a);		
+end
+
+rule "PA Approval"
+	when 
+		$m : ManagerAgent( elig, prov, serv )
+	then
+		System.out.println("PA REQUEST APPROVED");
+		$m.quickMessage($m.getFacility(), $m, "approved", "pa-approval");
+		$m.setElig(false);
+		$m.setProv(false);
+		$m.setServ(false);
+		update($m);
 end

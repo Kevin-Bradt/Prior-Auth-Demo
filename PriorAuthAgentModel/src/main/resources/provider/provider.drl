@@ -64,5 +64,7 @@ rule "In Provider Network"
 			System.out.println("Provider is out of network for Dr. " + $f + " " + $l + " (" + $c + ") at " + $h);
 			$prov.quickMessage( $prov.getManager(), $prov, "false", "provider-denial");
 		}
+		retract($p);
+		retract($pc);
 end
 
