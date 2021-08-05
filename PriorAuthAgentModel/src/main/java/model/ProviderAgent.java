@@ -81,7 +81,9 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 	    	kSession.fireAllRules();
 	    	
 	    	//Find manager
-	    	setManager(findAgent(myAgent, "manager"));
+	    	while (getManager() == null) {
+	    		setManager(findAgent(myAgent, "manager"));
+	    	}
 	    	System.out.println("Provider Found "+getManager());
 		}
 		

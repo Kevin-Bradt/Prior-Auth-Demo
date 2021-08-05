@@ -4,6 +4,7 @@ package model;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -23,7 +24,10 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 	private MedicalInfo medicalInfo;
 	private Policy policy;
 	private Physician physician;
+	
+	private int demo_step = 0;
 	private KieSession kSession;
+	private FactHandle agentFH;
 
 	public AID getManager() {
 		return manager;
@@ -33,7 +37,22 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 		this.manager = manager;
 	}
 	
-	
+	public int getDemo_step() {
+		return demo_step;
+	}
+
+	public void setDemo_step(int demo_step) {
+		this.demo_step = demo_step;
+	}
+
+	public FactHandle getAgentFH() {
+		return agentFH;
+	}
+
+	public void setAgentFH(FactHandle agentFH) {
+		this.agentFH = agentFH;
+	}
+
 	protected void setup() {
 		System.out.println("EligibilityAgent start");
 		
@@ -76,6 +95,12 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 		//If good, drools will call other method
 	}
 	
+	public void nextStep() {
+		demo_step++;
+		this.kSession.update(agentFH, this);
+		this.kSession.fireAllRules();
+	}
+	
 	private class Messaging extends CyclicBehaviour {
 		
 		private KieSession kSession;
@@ -85,11 +110,13 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 			
 			//get KieSession
 			kSession = k;
-			kSession.insert(myAgent);
+			setAgentFH(kSession.insert(myAgent));
 			kSession.fireAllRules();
 			
 			//Find manager
-	    	setManager(findAgent(myAgent, "manager"));
+			while (getManager() == null) {
+	    		setManager(findAgent(myAgent, "manager"));
+	    	}
 	    	System.out.println("Eligibilty Found "+getManager());
 	    	
 	    	

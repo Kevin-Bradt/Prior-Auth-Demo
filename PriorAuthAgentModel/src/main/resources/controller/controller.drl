@@ -12,18 +12,19 @@ import model.*;
 
 rule "All agents online"
     when
-        FacilityAgent()
-        ManagerAgent()
-        EligibilityAgent()
-        ProviderAgent()
-        ServiceAgent()
-        LevelOfCareAgent()
-        MedNecAgent()
+        $f : FacilityAgent()
+        $m : ManagerAgent()
+        $e : EligibilityAgent()
+        $p : ProviderAgent()
+        $s : ServiceAgent()
+        $l : LevelOfCareAgent()
+        $n : MedNecAgent()
     then
         System.out.println("ALL AGENTS ONLINE");
+        $m.nextStep();
 end
 
-rule "Facility"
+/*rule "Facility"
 	when
 		FacilityAgent()
 	then
@@ -70,4 +71,4 @@ rule "MedNec"
 		MedNecAgent()
 	then
 		System.out.println("MedNec ONLINE");
-end
+end*/

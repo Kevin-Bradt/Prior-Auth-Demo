@@ -3,6 +3,7 @@ package model;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -31,6 +32,10 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	private AID eligibility, provider, service, facility;
 	
 	private boolean elig, prov, serv;
+	
+	private int demo_step = 0;
+	private KieSession kSession;
+	private FactHandle agentFH;
 	
 	public AID getEligibility() {
 		return eligibility;
@@ -88,6 +93,22 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		this.serv = serv;
 	}
 
+	public int getDemo_step() {
+		return demo_step;
+	}
+
+	public void setDemo_step(int demo_step) {
+		this.demo_step = demo_step;
+	}
+
+	public FactHandle getAgentFH() {
+		return agentFH;
+	}
+
+	public void setAgentFH(FactHandle agentFH) {
+		this.agentFH = agentFH;
+	}
+
 	public void deny() {
 		System.out.println("Prior Authorization Denied. For request #" + "put number here");
 	}
@@ -114,7 +135,7 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		// Start KieSession for drools
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
-    	KieSession kSession = kContainer.newKieSession("ksession-manager");
+    	this.kSession = kContainer.newKieSession("ksession-manager");
     	
     	// Adding agent to controller session
 		DecisionAgent.kSession2.insert(this);
@@ -125,7 +146,7 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		registerAgent(this, getAID(), "manager");
     	
     	// Try receiving message
-    	addBehaviour(new Messaging(kSession, this));
+    	addBehaviour(new Messaging(this.kSession, this));
 	}
 	
 	// Drools calls this when facility sends form
@@ -173,7 +194,12 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	         e.printStackTrace();
 	     }
 		
-		
+	}
+	
+	public void nextStep() {
+		demo_step++;
+		this.kSession.update(agentFH, this);
+		this.kSession.fireAllRules();
 	}
 	
 	private class Messaging extends CyclicBehaviour {
@@ -186,19 +212,25 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 			
 			
 			kSession = k;
-			kSession.insert(myAgent);
+			setAgentFH(kSession.insert(myAgent));
 	    	kSession.fireAllRules();
 	    	
 	    	// Find eligibility
-	    	setEligibility(findAgent(myAgent, "eligibility"));
+	    	while (getEligibility() == null) {
+	    		setEligibility(findAgent(myAgent, "eligibility"));
+	    	}
 	    	System.out.println("Manager Found "+getEligibility()); 
 	    	
 	    	// Find provider
-	    	setProvider(findAgent(myAgent, "provider"));
+	    	while (getProvider() == null) {
+	    		setProvider(findAgent(myAgent, "provider"));
+	    	}
 	    	System.out.println("Manager Found "+getProvider());
 	    	
 	    	// Find service
-	    	setService(findAgent(myAgent, "service"));
+	    	while (getService() == null) {
+	    		setService(findAgent(myAgent, "service"));
+	    	}
 	    	System.out.println("Manager Found "+getService());
 	    	
 	    	// Find facility

@@ -96,15 +96,21 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	    	kSession.fireAllRules();
 	    	
 	    	//Find manager
-	    	setManager(findAgent(myAgent, "manager"));
+	    	while (getManager() == null) {
+	    		setManager(findAgent(myAgent, "manager"));
+	    	}
 	    	System.out.println("Service Found "+getManager());
 	    	
 	    	//Find level of care
-	    	setLevelofcare(findAgent(myAgent, "levelofcare"));
+	    	while (getLevelofcare() == null) {
+	    		setLevelofcare(findAgent(myAgent, "levelofcare"));
+	    	}
 	    	System.out.println("Service Found "+getLevelofcare());
 	    	
 	    	//Find med nec
-	    	setMednec(findAgent(myAgent, "mednec"));
+	    	while (getMednec() == null) {
+	    		setMednec(findAgent(myAgent, "mednec"));
+	    	}
 	    	System.out.println("Service Found "+getMednec());
 		}
 		

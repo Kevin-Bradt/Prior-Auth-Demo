@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
+import org.kie.api.runtime.rule.FactHandle;
+
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
@@ -16,6 +18,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 		
 	private AID manager;
 	
+	private FactHandle agentFH;
 
 	public AID getManager() {
 		return manager;
@@ -33,7 +36,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 		System.out.println("FacilityAgent start");
 		
 		// Adding agent to controller session
-		DecisionAgent.kSession2.insert(this);
+		this.agentFH = DecisionAgent.kSession2.insert(this);
 		
 		// Create and show the GUI 
 		myGui = new FacilityGui(this);
@@ -54,6 +57,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 	}
 	
 	public void stepDemo() {
+		DecisionAgent.kSession2.update(agentFH, this);
 		DecisionAgent.kSession2.fireAllRules();
 	}
 	

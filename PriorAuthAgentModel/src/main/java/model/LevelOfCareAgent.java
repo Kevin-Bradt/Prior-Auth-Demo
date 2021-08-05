@@ -96,11 +96,15 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 			kSession.fireAllRules();
 			
 			//Find service
-	    	setService(findAgent(myAgent, "service"));
+			while (getService() == null) {
+	    		setService(findAgent(myAgent, "service"));
+	    	}
 	    	System.out.println("LevelOfCare Found "+getService());
 	    	
 	    	//Find med nec
-	    	setMednec(findAgent(myAgent, "mednec"));
+	    	while (getMednec() == null) {
+	    		setMednec(findAgent(myAgent, "mednec"));
+	    	}
 	    	System.out.println("LevelOfCare Found "+getMednec());
 			
 		}
