@@ -12,6 +12,7 @@ import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 import util.FacilityGui;
 
 public class FacilityAgent extends Agent implements DecisionAgent {
@@ -58,6 +59,8 @@ public class FacilityAgent extends Agent implements DecisionAgent {
     		setManager(findAgent(this, "manager"));
     	}
     	System.out.println("Facility Found "+getManager());
+    	
+    	addBehaviour(new RequestHandler());
     	
 	}
 	
@@ -113,6 +116,18 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 				myAgent.send(msg);
 			}
 		} );
+	}
+	
+	private class RequestHandler extends OneShotBehaviour {
+
+		public void action() {
+			
+			// Receive message from manager
+			
+			// Send back correct xml to manager
+				     
+		}
+
 	}
 	
 	
