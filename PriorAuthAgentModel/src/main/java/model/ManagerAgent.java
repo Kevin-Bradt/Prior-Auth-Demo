@@ -32,6 +32,7 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	private AID eligibility, provider, service, facility;
 	
 	private boolean elig, prov, serv;
+	private boolean denied;
 	
 	private int demo_step = 0;
 	private KieSession kSession;
@@ -109,8 +110,20 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		this.agentFH = agentFH;
 	}
 
+	public boolean isDenied() {
+		return denied;
+	}
+
+	public void setDenied(boolean denied) {
+		this.denied = denied;
+	}
+
 	public void deny() {
-		System.out.println("Prior Authorization Denied. For request #" + "put number here");
+		System.out.println("Prior Authorization Denied. For request #" + "2");
+		setElig(false);
+		setProv(false);
+		setServ(false);
+		setDenied(true);
 	}
 
 	@SuppressWarnings("restriction")

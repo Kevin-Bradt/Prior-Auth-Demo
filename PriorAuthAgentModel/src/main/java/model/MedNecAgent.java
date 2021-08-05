@@ -17,6 +17,9 @@ public class MedNecAgent extends Agent implements DecisionAgent {
 	private Integer esi_level;
 	private String cpt, icd10;
 	
+	private int demo_step = 0;
+	private KieSession kSession;
+	private FactHandle agentFH;
 	
 	public AID getLevelofcare() {
 		return levelofcare;
@@ -58,11 +61,27 @@ public class MedNecAgent extends Agent implements DecisionAgent {
 		this.icd10 = icd10;
 	}
 
+	public int getDemo_step() {
+		return demo_step;
+	}
+
+	public void setDemo_step(int demo_step) {
+		this.demo_step = demo_step;
+	}
+
+	public FactHandle getAgentFH() {
+		return agentFH;
+	}
+
+	public void setAgentFH(FactHandle agentFH) {
+		this.agentFH = agentFH;
+	}
+
 	protected void setup() {
 		System.out.println("MedNecAgent start");
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
-	    KieSession kSession = kContainer.newKieSession("ksession-mednec");
+	    this.kSession = kContainer.newKieSession("ksession-mednec");
 	    
 	    // Adding agent to controller session
     	DecisionAgent.kSession2.insert(this);
@@ -72,13 +91,19 @@ public class MedNecAgent extends Agent implements DecisionAgent {
     	registerAgent(this, getAID(), "mednec");
     	
     	// Try receiving message
-    	addBehaviour(new Messaging(kSession, this));
+    	addBehaviour(new Messaging(this.kSession, this));
 	}
 	
 	public void parseContent(String str) {
 		this.cpt = str.split("-")[0];
 		this.icd10 = str.split("-")[1];
 		quickMessage(getLevelofcare(), this, "report esi level", "esi-request");
+	}
+	
+	public void nextStep() {
+		demo_step++;
+		this.kSession.update(agentFH, this);
+		this.kSession.fireAllRules();
 	}
 	
 	private class Messaging extends CyclicBehaviour {
@@ -90,7 +115,7 @@ public class MedNecAgent extends Agent implements DecisionAgent {
 			super(a);
 			
 			kSession = k;
-			kSession.insert(myAgent);
+			setAgentFH(kSession.insert(myAgent));
 	    	kSession.fireAllRules();
 	    	
 	    	//Find level of care

@@ -9,25 +9,6 @@ import jade.core.AID;
 //declare any global variables here
 
 
-rule "Test"
-	when
-		ManagerAgent( demo_step == 0 )
-	then
-		System.out.println("Manager on step 0");
-end
-
-rule "Test2"
-	when
-		ManagerAgent( demo_step == 1 )
-	then
-		System.out.println("Manager on step 1!");
-end
-rule "Test3"
-	when
-		ManagerAgent( demo_step == 2 )
-	then
-		System.out.println("Manager on step 2!!");
-end
 
 
 rule "PA Form"
@@ -59,10 +40,8 @@ rule "Eligibility Denial"
 	then
 		System.out.println($c);
 		System.out.println("Manager got denial from the eligibility agent...");
-		System.out.println("PA REQUEST DENIED");
-		$m.setElig(false);
-		$m.setProv(false);
-		$m.setServ(false);
+		$m.deny();
+		update($m);
 		retract($a);		
 end
 
@@ -85,10 +64,8 @@ rule "Provider Denial"
 	then
 		System.out.println($c);
 		System.out.println("Manager got denial from the provider agent...");
-		System.out.println("PA REQUEST DENIED");
-		$m.setElig(false);
-		$m.setProv(false);
-		$m.setServ(false);
+		$m.deny();
+		update($m);
 		retract($a);		
 end
 
@@ -111,16 +88,14 @@ rule "Service Denial"
 	then
 		System.out.println($c);
 		System.out.println("Manager got denial from the service agent...");
-		System.out.println("PA REQUEST DENIED");
-		$m.setElig(false);
-		$m.setProv(false);
-		$m.setServ(false);
+		$m.deny();
+		update($m);
 		retract($a);		
 end
 
 rule "PA Approval"
 	when 
-		$m : ManagerAgent( elig, prov, serv )
+		$m : ManagerAgent( elig, prov, serv, demo_step == 5 )
 	then
 		System.out.println("PA REQUEST APPROVED");
 		$m.quickMessage($m.getFacility(), $m, "approved", "pa-approval");
@@ -128,4 +103,13 @@ rule "PA Approval"
 		$m.setProv(false);
 		$m.setServ(false);
 		update($m);
+end
+
+rule "PA Denial"
+	when 
+		$m : ManagerAgent( denied, demo_step == 5 )
+	then
+		System.out.println("PA REQUEST DENIED");
+		$m.quickMessage($m.getFacility(), $m, "denied", "pa-denial");
+		$m.setDenied(false);
 end

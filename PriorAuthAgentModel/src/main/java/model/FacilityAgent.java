@@ -19,6 +19,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 	private AID manager;
 	
 	private FactHandle agentFH;
+	private int demo_step;
 
 	public AID getManager() {
 		return manager;
@@ -26,6 +27,14 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 
 	public void setManager(AID manager) {
 		this.manager = manager;
+	}
+
+	public int getDemo_step() {
+		return demo_step;
+	}
+
+	public void setDemo_step(int demo_step) {
+		this.demo_step = demo_step;
 	}
 
 
@@ -57,9 +66,17 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 	}
 	
 	public void stepDemo() {
+		demo_step++;
 		DecisionAgent.kSession2.update(agentFH, this);
 		DecisionAgent.kSession2.fireAllRules();
 	}
+	
+	public void resetDemo() {
+		demo_step = 0;
+		DecisionAgent.kSession2.update(agentFH, this);
+		DecisionAgent.kSession2.fireAllRules();
+	}
+	
 	
 	public String readFile(String string) throws IOException {
 	  File f = new File(string);
@@ -77,6 +94,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 	}
 	
 	public void startDemo(String file) {
+		resetDemo();
 		addBehaviour(new OneShotBehaviour() {
 			public void action() {
 				System.out.println("Start demo");

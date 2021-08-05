@@ -27,7 +27,7 @@ rule "Send cpt and icd codes"
 	when
 		$m : MedicalInfo( !cptCode.equals(""), !icd10Codes.equals(""), $c : cptCode, $i : icd10Codes )
 		$p : Patient ( hospitalized != null, $h : hospitalized )
-		$s : ServiceAgent( )
+		$s : ServiceAgent( demo_step == 2 )
 	then
 		//System.out.println("Success both cpt and icd");
 		$s.quickMessage($s.getLevelofcare(), $s, $c + "-" + $i + "-" + String.valueOf($h), "med-codes");
@@ -47,7 +47,7 @@ end
 rule "Med nec approve"
 	when
 		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("med-nec-approve") )
-		$s : ServiceAgent( name.equals(((AID)$r).getName()) )
+		$s : ServiceAgent( name.equals(((AID)$r).getName()), demo_step == 4 )
 		$m : MedicalInfo( $cpt : cptCode, $med : medication )
 	then
 		$s.quickMessage($s.getManager(), $s, $c+"\nService Approval: "+$med+" ("+$cpt+")", "service-approval");
@@ -59,7 +59,7 @@ rule "Med nec deny"
 	when
 		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("med-nec-deny") )
 		$m : MedicalInfo( )
-		$s : ServiceAgent( name.equals(((AID)$r).getName()) )
+		$s : ServiceAgent( name.equals(((AID)$r).getName()), demo_step == 4 )
 	then
 		$s.quickMessage($s.getManager(), $s, $c+"\nService Denial: Need clinical docs for Primary immunodeficiency (D83.9)", "service-denial");
 		retract($m);

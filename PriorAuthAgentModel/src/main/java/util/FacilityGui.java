@@ -18,7 +18,15 @@ public class FacilityGui extends JFrame {
 	
 		
 		JPanel p = new JPanel();
+		p.setLayout(new FlowLayout(FlowLayout.LEFT));
 		getContentPane().add(p, BorderLayout.NORTH);
+		
+		JButton stepButton = new JButton("Next step");
+		stepButton.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				myAgent.stepDemo();
+			}
+		} );
 		
 		JLabel lab = new JLabel("Click here to start demo #1:");
 		p.add(lab);
@@ -32,8 +40,10 @@ public class FacilityGui extends JFrame {
 			}
 		} );
 		p.add(startButton);
+		p.add(stepButton);
 		
 		p = new JPanel();
+		p.setLayout(new FlowLayout(FlowLayout.LEFT));
 		getContentPane().add(p, BorderLayout.CENTER);
 		
 		JLabel lab2 = new JLabel("Click here to start demo #2:");
@@ -50,6 +60,7 @@ public class FacilityGui extends JFrame {
 		p.add(startButton2);
 		
 		p = new JPanel();
+		p.setLayout(new FlowLayout(FlowLayout.LEFT));
 		getContentPane().add(p, BorderLayout.SOUTH);
 		
 		JLabel lab3 = new JLabel("Click here to start demo #3:");
@@ -58,27 +69,17 @@ public class FacilityGui extends JFrame {
 		startButton3.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				myAgent.startDemo("PAform.xml");
-//				startButton.setVisible(false);
+//				startButton3.setVisible(false);
 //				lab.setText("Demo Started");
 				
 			}
 		} );
 		p.add(startButton3);
 		
-		JButton stepButton = new JButton("Next step");
-		stepButton.addActionListener( new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-				myAgent.stepDemo();
-			}
-		} );
-		p.add(stepButton);
 		
+
 		
-		
-		
-		
-		
-		setResizable(false);
+		setResizable(true);
 	}
 	
 	public void showGui() {

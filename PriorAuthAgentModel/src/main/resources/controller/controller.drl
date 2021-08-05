@@ -10,9 +10,9 @@ import model.*;
 
 
 
-rule "All agents online"
+rule "Next Step"
     when
-        $f : FacilityAgent()
+        $f : FacilityAgent( demo_step != 0 )
         $m : ManagerAgent()
         $e : EligibilityAgent()
         $p : ProviderAgent()
@@ -20,9 +20,32 @@ rule "All agents online"
         $l : LevelOfCareAgent()
         $n : MedNecAgent()
     then
-        System.out.println("ALL AGENTS ONLINE");
         $m.nextStep();
         $e.nextStep();
+        $p.nextStep();
+        $s.nextStep();
+        $l.nextStep();
+        $n.nextStep();
+end
+
+rule "Reset" salience 1
+    when
+        $f : FacilityAgent( demo_step == 0 )
+        $m : ManagerAgent()
+        $e : EligibilityAgent()
+        $p : ProviderAgent()
+        $s : ServiceAgent()
+        $l : LevelOfCareAgent()
+        $n : MedNecAgent()
+    then
+    	System.out.println("RESET");
+    	$f.setDemo_step(0);
+        $m.setDemo_step(0);
+        $e.setDemo_step(0);
+        $p.setDemo_step(0);
+        $s.setDemo_step(0);
+        $l.setDemo_step(0);
+        $n.setDemo_step(0);
 end
 
 /*rule "Facility"

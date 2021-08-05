@@ -17,7 +17,7 @@ import jade.core.AID;
 rule "Initial message" salience 1
 	when
 		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("initial-info") )
-		$p : ProviderAgent( name.equals(((AID)$r).getName()) )
+		$p : ProviderAgent( name.equals(((AID)$r).getName()), demo_step == 4 )
 	then
 		$p.parseForm($c);
 		retract($a);		
@@ -49,7 +49,7 @@ rule "In Provider Network"
 	when
 		$p : Physician ( $n : npiNumber, $c : credentials, $f : firstName, $l : lastName, $h : hospitalName)
 		$pc : Policy ( $npis : net_npis)
-		$prov : ProviderAgent()
+		$prov : ProviderAgent( demo_step == 4 )
 	then
 		boolean bool = false;
 		for (String npiNum : $npis) {

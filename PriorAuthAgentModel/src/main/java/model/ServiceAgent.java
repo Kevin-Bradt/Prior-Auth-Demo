@@ -4,6 +4,7 @@ package model;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -21,7 +22,9 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	private MedicalInfo medicalInfo;
 	private Patient patient;
 	
+	private int demo_step = 0;
 	private KieSession kSession;
+	private FactHandle agentFH;
 	
 	public AID getManager() {
 		return manager;
@@ -45,6 +48,22 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 
 	public void setMednec(AID mednec) {
 		this.mednec = mednec;
+	}
+
+	public int getDemo_step() {
+		return demo_step;
+	}
+
+	public void setDemo_step(int demo_step) {
+		this.demo_step = demo_step;
+	}
+
+	public FactHandle getAgentFH() {
+		return agentFH;
+	}
+
+	public void setAgentFH(FactHandle agentFH) {
+		this.agentFH = agentFH;
 	}
 
 	protected void setup() {
@@ -83,6 +102,12 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 		quickMessage(getManager(), this, needed_info, "missing-info" );
 	}
 	
+	public void nextStep() {
+		demo_step++;
+		this.kSession.update(agentFH, this);
+		this.kSession.fireAllRules();
+	}
+	
 	private class Messaging extends CyclicBehaviour {
 		
 		private KieSession kSession;
@@ -92,7 +117,7 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 			super(a);
 			
 			kSession = k;
-			kSession.insert(myAgent);
+			setAgentFH(kSession.insert(myAgent));
 	    	kSession.fireAllRules();
 	    	
 	    	//Find manager

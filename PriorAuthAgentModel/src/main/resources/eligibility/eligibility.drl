@@ -20,7 +20,7 @@ import jade.core.AID;
 rule "Initial message"
 	when
 		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("initial-info") )
-		$e : EligibilityAgent( name.equals(((AID)$r).getName()), demo_step == 2 )
+		$e : EligibilityAgent( name.equals(((AID)$r).getName()), demo_step == 4 )
 	then
 		$e.parseForm($c);
 		retract($a);		

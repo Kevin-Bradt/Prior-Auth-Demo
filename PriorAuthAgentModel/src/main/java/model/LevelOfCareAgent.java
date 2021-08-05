@@ -18,6 +18,9 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 	private boolean hospitalized;
 	private Integer esi_level;
 	
+	private int demo_step = 0;
+	private KieSession kSession;
+	private FactHandle agentFH;
 	
 	public AID getService() {
 		return service;
@@ -59,12 +62,28 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 		this.hospitalized = hospitalized;
 	}
 
+	public int getDemo_step() {
+		return demo_step;
+	}
+
+	public void setDemo_step(int demo_step) {
+		this.demo_step = demo_step;
+	}
+
+	public FactHandle getAgentFH() {
+		return agentFH;
+	}
+
+	public void setAgentFH(FactHandle agentFH) {
+		this.agentFH = agentFH;
+	}
+
 	protected void setup() {
 		System.out.println("LevelOfCareAgent start");
 		
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
-	    KieSession kSession = kContainer.newKieSession("ksession-levelofcare");
+	    this.kSession = kContainer.newKieSession("ksession-levelofcare");
 	    
 	    // Adding agent to controller session
 	    DecisionAgent.kSession2.insert(this);
@@ -74,7 +93,7 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
     	registerAgent(this, getAID(), "levelofcare");
     	
     	// Try receiving message
-    	addBehaviour(new Messaging(kSession, this));
+    	addBehaviour(new Messaging(this.kSession, this));
 	}
 	
 	public void parseContent(String str) {
@@ -82,6 +101,11 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 		this.hospitalized = str.split("-")[2].equals("true");
 	}
 	
+	public void nextStep() {
+		demo_step++;
+		this.kSession.update(agentFH, this);
+		this.kSession.fireAllRules();
+	}
 	
 	private class Messaging extends CyclicBehaviour {
 		
@@ -92,7 +116,7 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 			
 			// Get KieSession
 			kSession = k;
-			kSession.insert(myAgent);
+			setAgentFH(kSession.insert(myAgent));
 			kSession.fireAllRules();
 			
 			//Find service
