@@ -22,6 +22,7 @@ rule "All agents online"
     then
         System.out.println("ALL AGENTS ONLINE");
         $m.nextStep();
+        $e.nextStep();
 end
 
 /*rule "Facility"

@@ -50,8 +50,7 @@ rule "Med nec approve"
 		$s : ServiceAgent( name.equals(((AID)$r).getName()) )
 		$m : MedicalInfo( $cpt : cptCode, $med : medication )
 	then
-		System.out.println("Service Approval: "+$med+" ("+$cpt+")");
-		$s.quickMessage($s.getManager(), $s, "Service Approval: "+$med+" ("+$cpt+")", "service-approval");
+		$s.quickMessage($s.getManager(), $s, $c+"\nService Approval: "+$med+" ("+$cpt+")", "service-approval");
 		retract($m);
 		retract($a);
 end	
@@ -62,8 +61,7 @@ rule "Med nec deny"
 		$m : MedicalInfo( )
 		$s : ServiceAgent( name.equals(((AID)$r).getName()) )
 	then
-		System.out.println("Service Denial: Need clinical docs for Primary immunodeficiency (D83.9)");
-		$s.quickMessage($s.getManager(), $s, "Service Denial", "service-denial");
+		$s.quickMessage($s.getManager(), $s, $c+"\nService Denial: Need clinical docs for Primary immunodeficiency (D83.9)", "service-denial");
 		retract($m);
 		retract($a);
 end	

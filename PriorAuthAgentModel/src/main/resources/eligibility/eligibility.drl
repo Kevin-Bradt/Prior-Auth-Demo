@@ -20,7 +20,7 @@ import jade.core.AID;
 rule "Initial message"
 	when
 		$a : ACLMessage( $send : sender.name, $r : AllReceiver.next(), $c : content, ConversationId.equals("initial-info") )
-		$e : EligibilityAgent( name.equals(((AID)$r).getName()) )
+		$e : EligibilityAgent( name.equals(((AID)$r).getName()), demo_step == 2 )
 	then
 		$e.parseForm($c);
 		retract($a);		
@@ -100,12 +100,12 @@ rule "Covered"
 				}
 			}
 			if (bool) {
-				System.out.println("Policy allows eligibility for treatment");
-				$elig.quickMessage( $elig.getManager(), $elig, "true", "eligibility-approval");
+				//System.out.println("Policy allows eligibility for treatment");
+				$elig.quickMessage( $elig.getManager(), $elig, "Policy allows eligibility for treatment", "eligibility-approval");
 				
 			} else {
-				System.out.println("Policy does not allow eligibility for treatment");
-				$elig.quickMessage( $elig.getManager(), $elig, "false", "eligibility-denial");
+				//System.out.println("Policy does not allow eligibility for treatment");
+				$elig.quickMessage( $elig.getManager(), $elig, "Policy does not allow eligibility for treatment", "eligibility-denial");
 				
 			}
 		} else {
@@ -116,11 +116,11 @@ rule "Covered"
 				}
 			}
 			if (bool) {
-				System.out.println("Policy allows eligibility for treatment");
-				$elig.quickMessage( $elig.getManager(), $elig, "true", "eligibility-approval");
+				//System.out.println("Policy allows eligibility for treatment");
+				$elig.quickMessage( $elig.getManager(), $elig, "Policy allows eligibility for treatment", "eligibility-approval");
 			} else {
-				System.out.println("Policy does not allow eligibility for treatment");
-				$elig.quickMessage( $elig.getManager(), $elig, "false", "eligibility-denial");
+				//System.out.println("Policy does not allow eligibility for treatment");
+				$elig.quickMessage( $elig.getManager(), $elig, "Policy does not allow eligibility for treatment", "eligibility-denial");
 			}
 		}
 		

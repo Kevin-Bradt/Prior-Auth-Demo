@@ -9,13 +9,31 @@ import jade.core.AID;
 //declare any global variables here
 
 
+rule "Test"
+	when
+		ManagerAgent( demo_step == 0 )
+	then
+		System.out.println("Manager on step 0");
+end
 
+rule "Test2"
+	when
+		ManagerAgent( demo_step == 1 )
+	then
+		System.out.println("Manager on step 1!");
+end
+rule "Test3"
+	when
+		ManagerAgent( demo_step == 2 )
+	then
+		System.out.println("Manager on step 2!!");
+end
 
 
 rule "PA Form"
 	when
 		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("facility-pa-request") )
-		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
+		$m : ManagerAgent( name.equals(((AID)$r).getName()), demo_step == 1 )
 	then
 		System.out.println("Manager got PA Request from " + $send);
 		$m.breakdownForm($c);
@@ -27,6 +45,7 @@ rule "Eligibility Approval"
 		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("eligibility-approval"))
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
+		System.out.println($c);
 		System.out.println("Manager got approval from the eligibility agent!");
 		$m.setElig(true);
 		update($m);
@@ -38,6 +57,7 @@ rule "Eligibility Denial"
 		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("eligibility-denial"))
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
+		System.out.println($c);
 		System.out.println("Manager got denial from the eligibility agent...");
 		System.out.println("PA REQUEST DENIED");
 		$m.setElig(false);
@@ -51,6 +71,7 @@ rule "Provider Approval"
 		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("provider-approval"))
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
+		System.out.println($c);
 		System.out.println("Manager got approval from the provider agent!");
 		$m.setProv(true);
 		update($m);
@@ -62,6 +83,7 @@ rule "Provider Denial"
 		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("provider-denial"))
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
+		System.out.println($c);
 		System.out.println("Manager got denial from the provider agent...");
 		System.out.println("PA REQUEST DENIED");
 		$m.setElig(false);
@@ -75,6 +97,7 @@ rule "Service Approval"
 		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("service-approval"))
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
+		System.out.println($c);
 		System.out.println("Manager got approval from the service agent!");
 		$m.setServ(true);
 		update($m);
@@ -86,6 +109,7 @@ rule "Service Denial"
 		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("service-denial"))
 		$m : ManagerAgent( name.equals(((AID)$r).getName()) )
 	then
+		System.out.println($c);
 		System.out.println("Manager got denial from the service agent...");
 		System.out.println("PA REQUEST DENIED");
 		$m.setElig(false);
