@@ -68,7 +68,7 @@ public class FacilityGui extends JFrame {
 		JButton startButton3 = new JButton("Start Demo");
 		startButton3.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				myAgent.startDemo("PAform.xml");
+				myAgent.startDemo("PAIncomplete.xml");
 //				startButton3.setVisible(false);
 //				lab.setText("Demo Started");
 				

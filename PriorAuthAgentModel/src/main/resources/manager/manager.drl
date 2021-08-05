@@ -119,7 +119,7 @@ rule "Clinical Doc Request"
 		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("clinical-doc-request") )
 		$m : ManagerAgent( name.equals(((AID)$r).getName()))
 	then
-		System.out.println("Missing Info from facility: " + $c);
+		System.out.println("Missing info from facility: " + $c);
 		// Method that sends message to facility
 		$m.quickMessage($m.getFacility(), $m, $c, "clinical-doc-request");
 		retract($a);		

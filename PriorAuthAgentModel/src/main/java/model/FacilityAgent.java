@@ -11,6 +11,7 @@ import org.kie.api.runtime.rule.FactHandle;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import util.FacilityGui;
@@ -60,8 +61,11 @@ public class FacilityAgent extends Agent implements DecisionAgent {
     	}
     	System.out.println("Facility Found "+getManager());
     	
-    	addBehaviour(new RequestHandler());
-    	
+    	addBehaviour(new TickerBehaviour(this, 1000) {
+    	    protected void onTick() {
+    	        myAgent.addBehaviour(new RequestHandler());
+    	    }
+    	} );
 	}
 	
 	protected void takeDown() {
@@ -123,8 +127,19 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 		public void action() {
 			
 			// Receive message from manager
-			
-			// Send back correct xml to manager
+			ACLMessage msg = myAgent.receive();
+			if (msg != null && msg.getConversationId().equals("clinical-doc-request")) {
+				System.out.println("Sending new PA form.");
+				ACLMessage rpl = msg.createReply();
+				try {
+                    String inputString = readFile("PAform.xml");
+                    rpl.setContent(inputString);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                rpl.setConversationId("clinical-doc-recieved");
+                myAgent.send(rpl);
+			}
 				     
 		}
 
