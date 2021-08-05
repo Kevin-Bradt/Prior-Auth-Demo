@@ -41,8 +41,12 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 	    KieContainer kContainer = ks.getKieClasspathContainer();
     	this.kSession = kContainer.newKieSession("ksession-eligibility");
     	
+    	// Adding agent to controller session
+    	DecisionAgent.kSession2.insert(this);
+    	
     	// Register the eligibility agent in the yellow pages
     	registerAgent(this, getAID(), "eligibility");
+    	
     	
     	// Try receiving message
     	addBehaviour(new Messaging(kSession, this));

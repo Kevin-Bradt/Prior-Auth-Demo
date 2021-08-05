@@ -63,6 +63,10 @@ public class MedNecAgent extends Agent implements DecisionAgent {
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
 	    KieSession kSession = kContainer.newKieSession("ksession-mednec");
+	    
+	    // Adding agent to controller session
+    	DecisionAgent.kSession2.insert(this);
+
     	
     	// Register the eligibility agent in the yellow pages
     	registerAgent(this, getAID(), "mednec");

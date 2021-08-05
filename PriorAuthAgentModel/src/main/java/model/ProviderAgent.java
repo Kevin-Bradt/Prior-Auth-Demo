@@ -38,6 +38,10 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 	    KieContainer kContainer = ks.getKieClasspathContainer();
     	this.kSession = kContainer.newKieSession("ksession-provider");
     	
+    	// Adding agent to controller session
+    	DecisionAgent.kSession2.insert(this);
+
+    	
     	// Register the eligibility agent in the yellow pages
     	registerAgent(this, getAID(), "provider");
     	

@@ -1,5 +1,9 @@
 package model;
 
+import org.kie.api.KieServices;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+
 import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -9,6 +13,10 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 
 public interface DecisionAgent {
+	
+	public static final KieServices ks2 = KieServices.Factory.get();
+	public static final KieContainer kContainer2 = ks2.getKieClasspathContainer();
+	public static final KieSession kSession2 = kContainer2.newKieSession("ksession-controller");
 	
 	default void registerAgent(Agent agent, AID name, String service) {
 		

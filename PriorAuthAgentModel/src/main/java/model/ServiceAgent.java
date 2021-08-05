@@ -53,6 +53,10 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	    KieContainer kContainer = ks.getKieClasspathContainer();
     	this.kSession = kContainer.newKieSession("ksession-service");
     	
+    	// Adding agent to controller session
+    	DecisionAgent.kSession2.insert(this);
+   
+    	
     	// Register the eligibility agent in the yellow pages
     	registerAgent(this, getAID(), "service");
     	

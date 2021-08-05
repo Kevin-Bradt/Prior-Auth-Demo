@@ -65,6 +65,14 @@ public class FacilityGui extends JFrame {
 		} );
 		p.add(startButton3);
 		
+		JButton stepButton = new JButton("Next step");
+		stepButton.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				myAgent.stepDemo();
+			}
+		} );
+		p.add(stepButton);
+		
 		
 		
 		

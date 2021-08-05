@@ -1,0 +1,73 @@
+//created on: Aug 5, 2021
+package model
+
+//list any import classes here.
+
+import model.*;
+
+//declare any global variables here
+
+
+
+
+rule "All agents online"
+    when
+        FacilityAgent()
+        ManagerAgent()
+        EligibilityAgent()
+        ProviderAgent()
+        ServiceAgent()
+        LevelOfCareAgent()
+        MedNecAgent()
+    then
+        System.out.println("ALL AGENTS ONLINE");
+end
+
+rule "Facility"
+	when
+		FacilityAgent()
+	then
+		System.out.println("Facility ONLINE");
+end
+
+rule "Manager"
+	when
+		ManagerAgent()
+	then
+		System.out.println("Manager ONLINE");
+end
+
+rule "Elig"
+	when
+		EligibilityAgent()
+	then
+		System.out.println("Eligibility ONLINE");
+end
+
+rule "Provider"
+	when
+		ProviderAgent()
+	then
+		System.out.println("Provider ONLINE");
+end
+
+rule "Service"
+	when
+		ServiceAgent()
+	then
+		System.out.println("Service ONLINE");
+end
+
+rule "LevelOfCare"
+	when
+		LevelOfCareAgent()
+	then
+		System.out.println("LevelOfCare ONLINE");
+end
+
+rule "MedNec"
+	when
+		MedNecAgent()
+	then
+		System.out.println("MedNec ONLINE");
+end

@@ -116,6 +116,11 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	    KieContainer kContainer = ks.getKieClasspathContainer();
     	KieSession kSession = kContainer.newKieSession("ksession-manager");
     	
+    	// Adding agent to controller session
+		DecisionAgent.kSession2.insert(this);
+    	//DecisionAgent.kSession2.fireAllRules();
+
+    	
     	// Register the manager in the yellow pages
 		registerAgent(this, getAID(), "manager");
     	
@@ -197,7 +202,9 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	    	System.out.println("Manager Found "+getService());
 	    	
 	    	// Find facility
-	    	setFacility(findAgent(myAgent, "facility"));
+	    	while (getFacility() == null) {
+	    		setFacility(findAgent(myAgent, "facility"));
+	    	}
 	    	System.out.println("Manager Found "+getFacility());
 		}
 		
