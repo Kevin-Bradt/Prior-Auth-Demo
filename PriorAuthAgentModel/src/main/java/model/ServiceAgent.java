@@ -26,6 +26,24 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	private KieSession kSession;
 	private FactHandle agentFH;
 	
+	public void missingData() {
+		String missingData = "";
+		
+		if (medicalInfo.getCptCode().equals("") || medicalInfo.getCptCode() == null) {
+			missingData += "CPT code, ";
+		} if (medicalInfo.getIcd10Codes().equals("") || medicalInfo.getIcd10Codes() == null) {
+			missingData += "ICD10 codes, ";
+		} if (medicalInfo.getDiagnosis().equals("") || medicalInfo.getDiagnosis() == null) {
+			missingData += "Diagnosis";
+		}
+		
+		if (missingData.equals("")) {
+			// Do nothing
+		} else {
+			quickMessage(getManager(), this, missingData, "clinical-doc-request");
+		}
+	}
+	
 	public AID getManager() {
 		return manager;
 	}
@@ -96,10 +114,6 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 		//Insert this patient into Drools
 		//Fire rules to see if more info is needed
 		//If good, drools will call other method
-	}
-	
-	public void missingInfo(String needed_info) {
-		quickMessage(getManager(), this, needed_info, "missing-info" );
 	}
 	
 	public void nextStep() {

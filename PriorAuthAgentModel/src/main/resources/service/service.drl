@@ -41,7 +41,7 @@ rule "Missing cpt and icd codes"
 		$s : ServiceAgent( )
 	then
 		//System.out.println("Missing cpt/icd");
-		$s.missingInfo("cpt_code,icd_10");
+		$s.missingData();
 end
 		
 rule "Med nec approve"
