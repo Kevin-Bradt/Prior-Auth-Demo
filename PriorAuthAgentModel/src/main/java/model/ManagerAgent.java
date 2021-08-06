@@ -209,6 +209,33 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		
 	}
 	
+	@SuppressWarnings("restriction")
+	public void breakdownClinicalDoc(String str_xml) {
+		// Break apart form
+		// Send parts to approriate agents
+		// i.e. patient_info xml send to Elig. agent as string in ACL Message
+		try {	  
+	         //File inputFile = new File("NewFile.xml");
+	         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	         InputSource inputData = new InputSource();
+	         inputData.setCharacterStream(new StringReader(str_xml));
+	         Document doc = dBuilder.parse(inputData);
+	         doc.getDocumentElement().normalize();
+	         
+	         NodeList medicalInfo = doc.getElementsByTagName("medical_info");
+
+	         String serviceInfoMessage = nodeListToString(medicalInfo);
+	        
+	         quickMessage(getService(),this,serviceInfoMessage,"clinical-report");
+	         
+	         
+		 } catch (Exception e) {
+	         e.printStackTrace();
+	     }
+		
+	}
+	
 	public void nextStep() {
 		demo_step++;
 		this.kSession.update(agentFH, this);

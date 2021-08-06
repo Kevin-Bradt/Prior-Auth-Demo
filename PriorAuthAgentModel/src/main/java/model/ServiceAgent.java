@@ -116,6 +116,18 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 		//If good, drools will call other method
 	}
 	
+	public void parseClinical(String str_xml) {
+		//Parse string to xml if needed
+		//Save data into patient class or other structure
+		this.medicalInfo = new MedicalInfo(str_xml);
+
+		kSession.insert(this.medicalInfo);
+        kSession.fireAllRules();
+		//Insert this patient into Drools
+		//Fire rules to see if more info is needed
+		//If good, drools will call other method
+	}
+	
 	public void nextStep() {
 		demo_step++;
 		this.kSession.update(agentFH, this);

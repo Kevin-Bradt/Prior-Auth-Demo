@@ -126,7 +126,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 			// Receive message from manager
 			ACLMessage msg = myAgent.receive();
 			if (msg != null && msg.getConversationId().equals("clinical-doc-request")) {
-				System.out.println("Sending new PA form.");
+				System.out.println("Clinical doc request completed");
 				ACLMessage rpl = msg.createReply();
 				try {
                     String inputString = readFile("PAform.xml");
