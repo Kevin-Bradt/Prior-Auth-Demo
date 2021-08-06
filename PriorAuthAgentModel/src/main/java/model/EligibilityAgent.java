@@ -117,7 +117,7 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 			while (getManager() == null) {
 	    		setManager(findAgent(myAgent, "manager"));
 	    	}
-	    	System.out.println("Eligibilty Found "+getManager());
+	    	//System.out.println("Eligibilty Found "+getManager());
 	    	
 	    	
 		}

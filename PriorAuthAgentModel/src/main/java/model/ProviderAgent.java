@@ -109,7 +109,7 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 	    	while (getManager() == null) {
 	    		setManager(findAgent(myAgent, "manager"));
 	    	}
-	    	System.out.println("Provider Found "+getManager());
+	    	//System.out.println("Provider Found "+getManager());
 		}
 		
 		public void action() {

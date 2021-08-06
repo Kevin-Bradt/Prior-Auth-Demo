@@ -122,13 +122,13 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 			while (getService() == null) {
 	    		setService(findAgent(myAgent, "service"));
 	    	}
-	    	System.out.println("LevelOfCare Found "+getService());
+	    	//System.out.println("LevelOfCare Found "+getService());
 	    	
 	    	//Find med nec
 	    	while (getMednec() == null) {
 	    		setMednec(findAgent(myAgent, "mednec"));
 	    	}
-	    	System.out.println("LevelOfCare Found "+getMednec());
+	    	//System.out.println("LevelOfCare Found "+getMednec());
 			
 		}
 		

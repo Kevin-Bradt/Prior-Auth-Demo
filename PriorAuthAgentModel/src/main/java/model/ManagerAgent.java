@@ -258,25 +258,25 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	    	while (getEligibility() == null) {
 	    		setEligibility(findAgent(myAgent, "eligibility"));
 	    	}
-	    	System.out.println("Manager Found "+getEligibility()); 
+	    	//System.out.println("Manager Found "+getEligibility()); 
 	    	
 	    	// Find provider
 	    	while (getProvider() == null) {
 	    		setProvider(findAgent(myAgent, "provider"));
 	    	}
-	    	System.out.println("Manager Found "+getProvider());
+	    	//System.out.println("Manager Found "+getProvider());
 	    	
 	    	// Find service
 	    	while (getService() == null) {
 	    		setService(findAgent(myAgent, "service"));
 	    	}
-	    	System.out.println("Manager Found "+getService());
+	    	//System.out.println("Manager Found "+getService());
 	    	
 	    	// Find facility
 	    	while (getFacility() == null) {
 	    		setFacility(findAgent(myAgent, "facility"));
 	    	}
-	    	System.out.println("Manager Found "+getFacility());
+	    	//System.out.println("Manager Found "+getFacility());
 		}
 		
 		// Cycles forever

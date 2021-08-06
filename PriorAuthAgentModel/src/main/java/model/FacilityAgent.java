@@ -60,7 +60,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
     	while (getManager() == null) {
     		setManager(findAgent(this, "manager"));
     	}
-    	System.out.println("Facility Found "+getManager());
+    	//System.out.println("Facility Found "+getManager());
     	
     	addBehaviour(new RequestHandler());
 	}

@@ -33,7 +33,6 @@ public class SnifferStarter extends Agent implements DecisionAgent {
 				while (findAgent(myAgent, "Service") == null) {}
 				while (findAgent(myAgent, "LevelOfCare") == null) {}
 				while (findAgent(myAgent, "MedNec") == null) {}
-				System.out.println("ALL AGENTS FOUND");
 				
 				try
 				{

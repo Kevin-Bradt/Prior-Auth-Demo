@@ -150,19 +150,19 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	    	while (getManager() == null) {
 	    		setManager(findAgent(myAgent, "manager"));
 	    	}
-	    	System.out.println("Service Found "+getManager());
+	    	//System.out.println("Service Found "+getManager());
 	    	
 	    	//Find level of care
 	    	while (getLevelofcare() == null) {
 	    		setLevelofcare(findAgent(myAgent, "levelofcare"));
 	    	}
-	    	System.out.println("Service Found "+getLevelofcare());
+	    	//System.out.println("Service Found "+getLevelofcare());
 	    	
 	    	//Find med nec
 	    	while (getMednec() == null) {
 	    		setMednec(findAgent(myAgent, "mednec"));
 	    	}
-	    	System.out.println("Service Found "+getMednec());
+	    	//System.out.println("Service Found "+getMednec());
 		}
 		
 		public void action() {
