@@ -3,7 +3,7 @@
 ## Requirements
 1. Install [JADE](https://jade.tilab.com/download/jade/). Download and unzip jadeAll folder.
 2. Install [Eclipse](https://www.eclipse.org/downloads/) 
-3. Install [Drools](https://www.drools.org/download/download.html) (Specifically the newest version of "Drools and jBPM tools" as it is the Eclipse plug in). Make sure to [install](https://www.tutorialspoint.com/drools/drools_eclipse_plugin.htm) it within eclipse after downloading.
+3. Install [Drools](https://www.drools.org/download/download.html) (Specifically the Latest 6.x version: 6.5.0.Final version of "Drools and jBPM tools" as it is the Eclipse plug in). Make sure to [install](https://www.tutorialspoint.com/drools/drools_eclipse_plugin.htm) it within eclipse after downloading.
 
 
 ## Clone Repo Into Eclipse
@@ -44,7 +44,7 @@ Click Apply and Close.
     
     Create a new run configuration. Set Main class to `jade.Boot` this is reguired for any Jade run configuration. Arguments can be customized as needed. Currently, the following arguments are used to run all the agents at once in the same container:
     
-    ```-gui -container-name "PriorAuth" -agents "Eligibility:model.EligibilityAgent;Manager:model.ManagerAgent;MedNec:model.MedNecAgent;Providers:model.ProviderAgent;Service:model.ServiceAgent;LevelOfCare:model.LevelOfCareAgent"```
+    ```-gui -container-name "PriorAuth" -agents 'sniffer:jade.tools.sniffer.Sniffer;Facility:model.FacilityAgent;Manager:model.ManagerAgent;Eligibility:model.EligibilityAgent;Providers:model.ProviderAgent;Service:model.ServiceAgent;LevelOfCare:model.LevelOfCareAgent;MedNec:model.MedNecAgent'```
 
 
 
@@ -56,8 +56,11 @@ Tutorials: https://jade.tilab.com/documentation/tutorials-guides/
 
 Docs: https://jade.tilab.com/doc/api/index.html 
 
+Setup: https://www.youtube.com/watch?v=-dFx1_XBGVI
+
 ### Drools
 Tutorial: https://nicolas-heron.gitbook.io/droolsonboarding/ 
 
 Community Docs: https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ 
     
+Setup: https://www.youtube.com/watch?v=bmLG5QqGdsQ
