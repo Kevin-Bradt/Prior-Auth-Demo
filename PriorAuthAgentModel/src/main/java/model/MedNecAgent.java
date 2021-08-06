@@ -78,7 +78,7 @@ public class MedNecAgent extends Agent implements DecisionAgent {
 	}
 
 	protected void setup() {
-		System.out.println("MedNecAgent start");
+
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
 	    this.kSession = kContainer.newKieSession("ksession-mednec");

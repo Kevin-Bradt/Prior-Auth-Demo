@@ -45,7 +45,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 	
 	
 	protected void setup() {
-		System.out.println("FacilityAgent start");
+
 		
 		// Adding agent to controller session
 		this.agentFH = DecisionAgent.kSession2.insert(this);
@@ -129,7 +129,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 				System.out.println("Clinical doc request completed");
 				ACLMessage rpl = msg.createReply();
 				try {
-                    String inputString = readFile("PAform.xml");
+                    String inputString = readFile("src/main/resources/forms/PAform.xml");
                     rpl.setContent(inputString);
                 } catch (IOException e) {
                     e.printStackTrace();

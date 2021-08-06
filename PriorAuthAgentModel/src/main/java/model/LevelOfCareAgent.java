@@ -79,7 +79,6 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 	}
 
 	protected void setup() {
-		System.out.println("LevelOfCareAgent start");
 		
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();

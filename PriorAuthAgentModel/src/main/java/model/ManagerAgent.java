@@ -143,7 +143,6 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	}
 	
 	protected void setup() {
-		System.out.println("ManagerAgent start");
 		
 		// Start KieSession for drools
 		KieServices ks = KieServices.Factory.get();
