@@ -10,6 +10,7 @@ import org.kie.api.runtime.rule.FactHandle;
 
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -61,11 +62,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
     	}
     	System.out.println("Facility Found "+getManager());
     	
-    	addBehaviour(new TickerBehaviour(this, 1000) {
-    	    protected void onTick() {
-    	        myAgent.addBehaviour(new RequestHandler());
-    	    }
-    	} );
+    	addBehaviour(new RequestHandler());
 	}
 	
 	protected void takeDown() {
@@ -122,7 +119,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 		} );
 	}
 	
-	private class RequestHandler extends OneShotBehaviour {
+	private class RequestHandler extends CyclicBehaviour {
 
 		public void action() {
 			
