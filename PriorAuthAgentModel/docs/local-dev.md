@@ -1,9 +1,9 @@
 # Development Environment Setup
 
 ## Requirements
-1. Install [JADE](https://jade.tilab.com/download/jade/). Download and unzip jadeAll folder.
+1. Install JADE. [Download zip](https://jade.tilab.com/dl.php?file=JADE-bin-4.5.0.zip) (Version 4.5.0). Unzip using `jar xvf JADE-bin-4.5.0.zip`.
 2. Install [Eclipse](https://www.eclipse.org/downloads/) 
-3. Install [Drools](https://www.drools.org/download/download.html) (Specifically the Latest 6.x version: 6.5.0.Final version of "Drools and jBPM tools" as it is the Eclipse plug in). Make sure to [install](https://www.tutorialspoint.com/drools/drools_eclipse_plugin.htm) it within eclipse after downloading.
+3. Install Drools. [Download zip](https://download.jboss.org/drools/release/6.5.0.Final/droolsjbpm-tools-distribution-6.5.0.Final.zip) (Drools and jBPM tools 6.5.0). Unzip using `jar xvf droolsjbpm-tools-distribution-6.5.0.Final.zip`. Make sure to install Drools in Eclipse ([Tutorial](https://www.tutorialspoint.com/drools/drools_eclipse_plugin.htm)) and install Drools runtime within eclipse ([Tutorial](https://www.tutorialspoint.com/drools/drools_runtime.htm)).
 
 
 ## Clone Repo Into Eclipse
@@ -42,9 +42,9 @@ Click Apply and Close.
 
 4. **Set run configurations**
     
-    Create a new run configuration. Set Main class to `jade.Boot` this is reguired for any Jade run configuration. Arguments can be customized as needed. Currently, the following arguments are used to run all the agents at once in the same container:
+    Create a new run configuration. Set Main class to `jade.Boot` this is reguired for any Jade run configuration. Arguments can be customized as needed. Currently, the following arguments are used to start the demo:
     
-    ```-gui -container-name "PriorAuth" -agents 'sniffer:jade.tools.sniffer.Sniffer;Facility:model.FacilityAgent;Manager:model.ManagerAgent;Eligibility:model.EligibilityAgent;Providers:model.ProviderAgent;Service:model.ServiceAgent;LevelOfCare:model.LevelOfCareAgent;MedNec:model.MedNecAgent'```
+    ```-gui -container-name "PriorAuth" -agents 'Facility:model.FacilityAgent;Manager:model.ManagerAgent;Eligibility:model.EligibilityAgent;Providers:model.ProviderAgent;Service:model.ServiceAgent;LevelOfCare:model.LevelOfCareAgent;MedNec:model.MedNecAgent;sniffer:jade.tools.sniffer.Sniffer;snifferstarter:util.SnifferStarter'```
 
 
 
