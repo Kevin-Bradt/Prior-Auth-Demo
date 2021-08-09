@@ -26,6 +26,24 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	private KieSession kSession;
 	private FactHandle agentFH;
 	
+	public void missingData() {
+		String missingData = "";
+		
+		if (medicalInfo.getCptCode().equals("") || medicalInfo.getCptCode() == null) {
+			missingData += "CPT code, ";
+		} if (medicalInfo.getIcd10Codes().equals("") || medicalInfo.getIcd10Codes() == null) {
+			missingData += "ICD10 codes, ";
+		} if (medicalInfo.getDiagnosis().equals("") || medicalInfo.getDiagnosis() == null) {
+			missingData += "Diagnosis";
+		}
+		
+		if (missingData.equals("")) {
+			// Do nothing
+		} else {
+			quickMessage(getManager(), this, missingData, "clinical-doc-request");
+		}
+	}
+	
 	public AID getManager() {
 		return manager;
 	}
@@ -67,7 +85,7 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	}
 
 	protected void setup() {
-		System.out.println("ServiceAgent start");
+
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
     	this.kSession = kContainer.newKieSession("ksession-service");
@@ -98,8 +116,16 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 		//If good, drools will call other method
 	}
 	
-	public void missingInfo(String needed_info) {
-		quickMessage(getManager(), this, needed_info, "missing-info" );
+	public void parseClinical(String str_xml) {
+		//Parse string to xml if needed
+		//Save data into patient class or other structure
+		this.medicalInfo = new MedicalInfo(str_xml);
+
+		kSession.insert(this.medicalInfo);
+        kSession.fireAllRules();
+		//Insert this patient into Drools
+		//Fire rules to see if more info is needed
+		//If good, drools will call other method
 	}
 	
 	public void nextStep() {
@@ -124,19 +150,19 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	    	while (getManager() == null) {
 	    		setManager(findAgent(myAgent, "manager"));
 	    	}
-	    	System.out.println("Service Found "+getManager());
+	    	//System.out.println("Service Found "+getManager());
 	    	
 	    	//Find level of care
 	    	while (getLevelofcare() == null) {
 	    		setLevelofcare(findAgent(myAgent, "levelofcare"));
 	    	}
-	    	System.out.println("Service Found "+getLevelofcare());
+	    	//System.out.println("Service Found "+getLevelofcare());
 	    	
 	    	//Find med nec
 	    	while (getMednec() == null) {
 	    		setMednec(findAgent(myAgent, "mednec"));
 	    	}
-	    	System.out.println("Service Found "+getMednec());
+	    	//System.out.println("Service Found "+getMednec());
 		}
 		
 		public void action() {

@@ -38,7 +38,7 @@ rule "Reset" salience 1
         $l : LevelOfCareAgent()
         $n : MedNecAgent()
     then
-    	System.out.println("RESET");
+    	//System.out.println("RESET");
     	$f.setDemo_step(0);
         $m.setDemo_step(0);
         $e.setDemo_step(0);

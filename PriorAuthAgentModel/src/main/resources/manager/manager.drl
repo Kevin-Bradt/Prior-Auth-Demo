@@ -113,3 +113,23 @@ rule "PA Denial"
 		$m.quickMessage($m.getFacility(), $m, "denied", "pa-denial");
 		$m.setDenied(false);
 end
+
+rule "Clinical Doc Request"
+	when
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("clinical-doc-request") )
+		$m : ManagerAgent( name.equals(((AID)$r).getName()))
+	then
+		System.out.println("Missing info from facility: " + $c);
+		System.out.println("Requesting clinical docs for this information");
+		$m.quickMessage($m.getFacility(), $m, $c, "clinical-doc-request");
+		retract($a);		
+end
+
+rule "Clinical Doc Recieved"
+	when
+		$a : ACLMessage( $send : sender.localName, $r : AllReceiver.next(), $c : content, ConversationId.equals("clinical-doc-recieved") )
+		$m : ManagerAgent( name.equals(((AID)$r).getName()))
+	then
+		$m.breakdownClinicalDoc($c);
+		retract($a);		
+end

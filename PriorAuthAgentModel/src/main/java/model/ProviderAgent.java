@@ -52,7 +52,7 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 	}
 
 	protected void setup() {
-		System.out.println("ProviderAgent start");
+
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
     	this.kSession = kContainer.newKieSession("ksession-provider");
@@ -109,7 +109,7 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 	    	while (getManager() == null) {
 	    		setManager(findAgent(myAgent, "manager"));
 	    	}
-	    	System.out.println("Provider Found "+getManager());
+	    	//System.out.println("Provider Found "+getManager());
 		}
 		
 		public void action() {

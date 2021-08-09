@@ -54,7 +54,7 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 	}
 
 	protected void setup() {
-		System.out.println("EligibilityAgent start");
+
 		
 		KieServices ks = KieServices.Factory.get();
 	    KieContainer kContainer = ks.getKieClasspathContainer();
@@ -117,7 +117,7 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 			while (getManager() == null) {
 	    		setManager(findAgent(myAgent, "manager"));
 	    	}
-	    	System.out.println("Eligibilty Found "+getManager());
+	    	//System.out.println("Eligibilty Found "+getManager());
 	    	
 	    	
 		}

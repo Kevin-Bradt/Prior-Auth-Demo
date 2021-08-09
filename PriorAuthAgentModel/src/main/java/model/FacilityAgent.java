@@ -10,8 +10,11 @@ import org.kie.api.runtime.rule.FactHandle;
 
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
+import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 import util.FacilityGui;
 
 public class FacilityAgent extends Agent implements DecisionAgent {
@@ -42,7 +45,7 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 	
 	
 	protected void setup() {
-		System.out.println("FacilityAgent start");
+
 		
 		// Adding agent to controller session
 		this.agentFH = DecisionAgent.kSession2.insert(this);
@@ -57,8 +60,9 @@ public class FacilityAgent extends Agent implements DecisionAgent {
     	while (getManager() == null) {
     		setManager(findAgent(this, "manager"));
     	}
-    	System.out.println("Facility Found "+getManager());
+    	//System.out.println("Facility Found "+getManager());
     	
+    	addBehaviour(new RequestHandler());
 	}
 	
 	protected void takeDown() {
@@ -113,6 +117,29 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 				myAgent.send(msg);
 			}
 		} );
+	}
+	
+	private class RequestHandler extends CyclicBehaviour {
+
+		public void action() {
+			
+			// Receive message from manager
+			ACLMessage msg = myAgent.receive();
+			if (msg != null && msg.getConversationId().equals("clinical-doc-request")) {
+				System.out.println("Clinical doc request completed");
+				ACLMessage rpl = msg.createReply();
+				try {
+                    String inputString = readFile("src/main/resources/forms/PAform.xml");
+                    rpl.setContent(inputString);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                rpl.setConversationId("clinical-doc-recieved");
+                myAgent.send(rpl);
+			}
+				     
+		}
+
 	}
 	
 	

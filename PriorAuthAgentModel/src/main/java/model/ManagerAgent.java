@@ -143,7 +143,6 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	}
 	
 	protected void setup() {
-		System.out.println("ManagerAgent start");
 		
 		// Start KieSession for drools
 		KieServices ks = KieServices.Factory.get();
@@ -209,6 +208,33 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		
 	}
 	
+	@SuppressWarnings("restriction")
+	public void breakdownClinicalDoc(String str_xml) {
+		// Break apart form
+		// Send parts to approriate agents
+		// i.e. patient_info xml send to Elig. agent as string in ACL Message
+		try {	  
+	         //File inputFile = new File("NewFile.xml");
+	         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	         InputSource inputData = new InputSource();
+	         inputData.setCharacterStream(new StringReader(str_xml));
+	         Document doc = dBuilder.parse(inputData);
+	         doc.getDocumentElement().normalize();
+	         
+	         NodeList medicalInfo = doc.getElementsByTagName("medical_info");
+
+	         String serviceInfoMessage = nodeListToString(medicalInfo);
+	        
+	         quickMessage(getService(),this,serviceInfoMessage,"clinical-report");
+	         
+	         
+		 } catch (Exception e) {
+	         e.printStackTrace();
+	     }
+		
+	}
+	
 	public void nextStep() {
 		demo_step++;
 		this.kSession.update(agentFH, this);
@@ -232,25 +258,25 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	    	while (getEligibility() == null) {
 	    		setEligibility(findAgent(myAgent, "eligibility"));
 	    	}
-	    	System.out.println("Manager Found "+getEligibility()); 
+	    	//System.out.println("Manager Found "+getEligibility()); 
 	    	
 	    	// Find provider
 	    	while (getProvider() == null) {
 	    		setProvider(findAgent(myAgent, "provider"));
 	    	}
-	    	System.out.println("Manager Found "+getProvider());
+	    	//System.out.println("Manager Found "+getProvider());
 	    	
 	    	// Find service
 	    	while (getService() == null) {
 	    		setService(findAgent(myAgent, "service"));
 	    	}
-	    	System.out.println("Manager Found "+getService());
+	    	//System.out.println("Manager Found "+getService());
 	    	
 	    	// Find facility
 	    	while (getFacility() == null) {
 	    		setFacility(findAgent(myAgent, "facility"));
 	    	}
-	    	System.out.println("Manager Found "+getFacility());
+	    	//System.out.println("Manager Found "+getFacility());
 		}
 		
 		// Cycles forever
