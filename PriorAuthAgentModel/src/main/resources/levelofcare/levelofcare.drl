@@ -49,7 +49,6 @@ rule "ESI 2"
 		$l : LevelOfCareAgent( isHospitalized(), icd10.equals("D83.9") )
 	then
 		$l.setEsi_level(2);
-		//System.out.println("LoC: ESI level 2");
 end
 
 rule "ESI 3"
@@ -57,7 +56,6 @@ rule "ESI 3"
 		$l : LevelOfCareAgent( isHospitalized(), !icd10.equals("D83.9"), !icd10.equals("") )
 	then
 		$l.setEsi_level(3);
-		//System.out.println("LoC: ESI level 3");
 end
 
 rule "ESI 4"
@@ -65,7 +63,6 @@ rule "ESI 4"
 		$l : LevelOfCareAgent( !isHospitalized(), icd10.equals("D83.9") )
 	then
 		$l.setEsi_level(4);
-		//System.out.println("LoC: ESI level 4");
 end
 
 // Least severe
@@ -74,5 +71,4 @@ rule "ESI 5"
 		$l : LevelOfCareAgent( !isHospitalized(), !icd10.equals("D83.9"), !icd10.equals("") )
 	then
 		$l.setEsi_level(5);
-		//System.out.println("LoC: ESI level 5");
 end

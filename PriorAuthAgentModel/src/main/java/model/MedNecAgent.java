@@ -85,8 +85,7 @@ public class MedNecAgent extends Agent implements DecisionAgent {
 	    
 	    // Adding agent to controller session
     	DecisionAgent.kSession2.insert(this);
-
-    	
+   	
     	// Register the eligibility agent in the yellow pages
     	registerAgent(this, getAID(), "mednec");
     	
@@ -122,13 +121,11 @@ public class MedNecAgent extends Agent implements DecisionAgent {
 	    	while (getLevelofcare() == null) {
 	    		setLevelofcare(findAgent(myAgent, "levelofcare"));
 	    	}
-	    	//System.out.println("Med Nec Found "+getLevelofcare());
 	    	
 	    	//Find level of care
 	    	while (getService() == null) {
 	    		setService(findAgent(myAgent, "service"));
 	    	}
-	    	//System.out.println("Med Nec Found "+getService());
 		}
 		
 		public void action() {

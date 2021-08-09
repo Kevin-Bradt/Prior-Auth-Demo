@@ -29,7 +29,6 @@ rule "Send cpt and icd codes"
 		$p : Patient ( hospitalized != null, $h : hospitalized )
 		$s : ServiceAgent( demo_step == 2 )
 	then
-		//System.out.println("Success both cpt and icd");
 		$s.quickMessage($s.getLevelofcare(), $s, $c + "-" + $i + "-" + String.valueOf($h), "med-codes");
 		$s.quickMessage($s.getMednec(), $s, $c + "-" + $i, "med-codes");
 		retract($p);
@@ -40,7 +39,6 @@ rule "Missing cpt and icd codes"
 		$m : MedicalInfo( cptCode.equals("") || icd10Codes.equals("") )
 		$s : ServiceAgent( demo_step == 2 )
 	then
-		//System.out.println("Missing cpt/icd");
 		$s.missingData();
 		retract($m);
 end

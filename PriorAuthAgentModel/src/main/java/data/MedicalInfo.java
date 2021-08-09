@@ -54,25 +54,25 @@ public class MedicalInfo {
 	                  .item(0)
 	                  .getTextContent());
 	            
-	               
 	               this.setDiagnosis(eElement
-	                       .getElementsByTagName("diagnosis")
-	                       .item(0)
-	                       .getTextContent());
+                       .getElementsByTagName("diagnosis")
+                       .item(0)
+                       .getTextContent());
 	               
 	               this.setCptCode(eElement
-	                       .getElementsByTagName("cpt_code")
-	                       .item(0)
-	                       .getTextContent());
+                       .getElementsByTagName("cpt_code")
+                       .item(0)
+                       .getTextContent());
 	               
 	               this.setIcd10Codes(eElement
-	                       .getElementsByTagName("icd_10")
-	                       .item(0)
-	                       .getTextContent());
+                       .getElementsByTagName("icd_10")
+                       .item(0)
+                       .getTextContent());
+	               
 	               this.setExplanation(eElement
-	            		   .getElementsByTagName("explanation")
-	            		   .item(0)
-	            		   .getTextContent());
+            		   .getElementsByTagName("explanation")
+            		   .item(0)
+            		   .getTextContent());
 	            }
 	         }
 	      } catch (Exception e) {

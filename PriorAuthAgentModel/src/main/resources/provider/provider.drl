@@ -58,10 +58,8 @@ rule "In Provider Network"
 			}
 		}		
 		if (bool) {
-			//System.out.println("Provider is in network for Dr. " + $f + " " + $l + " (" + $c + ") at " + $h );
 			$prov.quickMessage( $prov.getManager(), $prov, "Provider is in network for Dr. " + $f + " " + $l + " (" + $c + ") at " + $h , "provider-approval");
 		} else {
-			//System.out.println("Provider is out of network for Dr. " + $f + " " + $l + " (" + $c + ") at " + $h);
 			$prov.quickMessage( $prov.getManager(), $prov, "Provider is out of network for Dr. " + $f + " " + $l + " (" + $c + ") at " + $h, "provider-denial");
 		}
 		retract($p);

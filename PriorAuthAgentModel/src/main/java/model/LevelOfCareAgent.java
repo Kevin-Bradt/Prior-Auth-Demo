@@ -86,8 +86,7 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 	    
 	    // Adding agent to controller session
 	    DecisionAgent.kSession2.insert(this);
-
-    	
+   	
     	// Register the eligibility agent in the yellow pages
     	registerAgent(this, getAID(), "levelofcare");
     	
@@ -122,14 +121,11 @@ public class LevelOfCareAgent extends Agent implements DecisionAgent {
 			while (getService() == null) {
 	    		setService(findAgent(myAgent, "service"));
 	    	}
-	    	//System.out.println("LevelOfCare Found "+getService());
 	    	
 	    	//Find med nec
 	    	while (getMednec() == null) {
 	    		setMednec(findAgent(myAgent, "mednec"));
-	    	}
-	    	//System.out.println("LevelOfCare Found "+getMednec());
-			
+	    	}			
 		}
 		
 		// Cycles forever

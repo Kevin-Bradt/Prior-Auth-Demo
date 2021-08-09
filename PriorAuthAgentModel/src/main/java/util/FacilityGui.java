@@ -33,10 +33,7 @@ public class FacilityGui extends JFrame {
 		JButton startButton = new JButton("Start Demo");
 		startButton.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				myAgent.startDemo("src/main/resources/forms/PAform.xml");
-//				startButton.setVisible(false);
-//				lab.setText("Demo Started");
-				
+				myAgent.startDemo("src/main/resources/forms/PAform.xml");			
 			}
 		} );
 		p.add(startButton);
@@ -51,10 +48,7 @@ public class FacilityGui extends JFrame {
 		JButton startButton2 = new JButton("Start Demo");
 		startButton2.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				myAgent.startDemo("src/main/resources/forms/PADenied.xml");
-//				startButton.setVisible(false);
-//				lab.setText("Demo Started");
-				
+				myAgent.startDemo("src/main/resources/forms/PADenied.xml");			
 			}
 		} );
 		p.add(startButton2);
@@ -68,16 +62,10 @@ public class FacilityGui extends JFrame {
 		JButton startButton3 = new JButton("Start Demo");
 		startButton3.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				myAgent.startDemo("src/main/resources/forms/PAIncomplete.xml");
-//				startButton3.setVisible(false);
-//				lab.setText("Demo Started");
-				
+				myAgent.startDemo("src/main/resources/forms/PAIncomplete.xml");			
 			}
 		} );
 		p.add(startButton3);
-		
-		
-
 		
 		setResizable(true);
 	}

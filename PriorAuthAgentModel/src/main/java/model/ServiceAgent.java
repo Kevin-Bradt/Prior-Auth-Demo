@@ -93,7 +93,6 @@ public class ServiceAgent extends Agent implements DecisionAgent {
     	// Adding agent to controller session
     	DecisionAgent.kSession2.insert(this);
    
-    	
     	// Register the eligibility agent in the yellow pages
     	registerAgent(this, getAID(), "service");
     	
@@ -108,12 +107,13 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 		this.medicalInfo = new MedicalInfo(str_xml);
 		this.patient = new Patient(str_xml);
 
+		//Insert this patient, medicalinfo into Drools
 		kSession.insert(this.patient);
-		kSession.insert(this.medicalInfo);
-        kSession.fireAllRules();
-		//Insert this patient into Drools
+		kSession.insert(this.medicalInfo);      
+		
 		//Fire rules to see if more info is needed
 		//If good, drools will call other method
+		kSession.fireAllRules();
 	}
 	
 	public void parseClinical(String str_xml) {
@@ -121,11 +121,9 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 		//Save data into patient class or other structure
 		this.medicalInfo = new MedicalInfo(str_xml);
 
+		//Insert new medicalinfo into Drools
 		kSession.insert(this.medicalInfo);
         kSession.fireAllRules();
-		//Insert this patient into Drools
-		//Fire rules to see if more info is needed
-		//If good, drools will call other method
 	}
 	
 	public void nextStep() {
@@ -150,19 +148,16 @@ public class ServiceAgent extends Agent implements DecisionAgent {
 	    	while (getManager() == null) {
 	    		setManager(findAgent(myAgent, "manager"));
 	    	}
-	    	//System.out.println("Service Found "+getManager());
 	    	
 	    	//Find level of care
 	    	while (getLevelofcare() == null) {
 	    		setLevelofcare(findAgent(myAgent, "levelofcare"));
 	    	}
-	    	//System.out.println("Service Found "+getLevelofcare());
 	    	
 	    	//Find med nec
 	    	while (getMednec() == null) {
 	    		setMednec(findAgent(myAgent, "mednec"));
 	    	}
-	    	//System.out.println("Service Found "+getMednec());
 		}
 		
 		public void action() {

@@ -151,9 +151,7 @@ public class ManagerAgent extends Agent implements DecisionAgent {
     	
     	// Adding agent to controller session
 		DecisionAgent.kSession2.insert(this);
-    	//DecisionAgent.kSession2.fireAllRules();
-
-    	
+   	
     	// Register the manager in the yellow pages
 		registerAgent(this, getAID(), "manager");
     	
@@ -168,7 +166,6 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		// Send parts to approriate agents
 		// i.e. patient_info xml send to Elig. agent as string in ACL Message
 		try {	  
-	         //File inputFile = new File("NewFile.xml");
 	         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	         InputSource inputData = new InputSource();
@@ -214,7 +211,6 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 		// Send parts to approriate agents
 		// i.e. patient_info xml send to Elig. agent as string in ACL Message
 		try {	  
-	         //File inputFile = new File("NewFile.xml");
 	         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	         InputSource inputData = new InputSource();
@@ -258,25 +254,21 @@ public class ManagerAgent extends Agent implements DecisionAgent {
 	    	while (getEligibility() == null) {
 	    		setEligibility(findAgent(myAgent, "eligibility"));
 	    	}
-	    	//System.out.println("Manager Found "+getEligibility()); 
 	    	
 	    	// Find provider
 	    	while (getProvider() == null) {
 	    		setProvider(findAgent(myAgent, "provider"));
 	    	}
-	    	//System.out.println("Manager Found "+getProvider());
 	    	
 	    	// Find service
 	    	while (getService() == null) {
 	    		setService(findAgent(myAgent, "service"));
 	    	}
-	    	//System.out.println("Manager Found "+getService());
 	    	
 	    	// Find facility
 	    	while (getFacility() == null) {
 	    		setFacility(findAgent(myAgent, "facility"));
 	    	}
-	    	//System.out.println("Manager Found "+getFacility());
 		}
 		
 		// Cycles forever

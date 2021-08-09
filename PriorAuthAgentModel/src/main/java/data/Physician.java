@@ -54,33 +54,32 @@ public class Physician {
 	               this.setFirstName(eElement
 	                  .getElementsByTagName("first_name")
 	                  .item(0)
-	                  .getTextContent());
-	            
+	                  .getTextContent());            
 	               
 	               this.setLastName(eElement
-	                       .getElementsByTagName("last_name")
-	                       .item(0)
-	                       .getTextContent());
+                       .getElementsByTagName("last_name")
+                       .item(0)
+                       .getTextContent());
 	               
 	               this.setNpiNumber(eElement
-	            		   .getElementsByTagName("npi_num")
-	            		   .item(0)
-	            		   .getTextContent());
+            		   .getElementsByTagName("npi_num")
+            		   .item(0)
+            		   .getTextContent());
 	               
 	               this.setCredentials(eElement
-	            		   .getElementsByTagName("credential")
-	            		   .item(0)
-	            		   .getTextContent());
+            		   .getElementsByTagName("credential")
+            		   .item(0)
+            		   .getTextContent());
 	               
 	               this.setHospitalName(eElement
-	            		   .getElementsByTagName("hospital")
-	            		   .item(0)
-	            		   .getTextContent());
+            		   .getElementsByTagName("hospital")
+            		   .item(0)
+            		   .getTextContent());
 	               
 	               this.setContactName(eElement
-	            		   .getElementsByTagName("contact_name")
-	            		   .item(0)
-	            		   .getTextContent());
+            		   .getElementsByTagName("contact_name")
+            		   .item(0)
+            		   .getTextContent());
 	            }
 	         }
 	      } catch (Exception e) {

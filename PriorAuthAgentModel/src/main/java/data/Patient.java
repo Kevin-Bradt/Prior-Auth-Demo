@@ -58,17 +58,16 @@ public class Patient {
 	                  .getElementsByTagName("first_name")
 	                  .item(0)
 	                  .getTextContent());
-	            
-	               
+	                 
 	               this.setLastName(eElement
-	                       .getElementsByTagName("last_name")
-	                       .item(0)
-	                       .getTextContent());
+                       .getElementsByTagName("last_name")
+                       .item(0)
+                       .getTextContent());
 	               
 	               this.setHospitalized(eElement
-	                       .getElementsByTagName("hospitalized")
-	                       .item(0)
-	                       .getTextContent().equals("true"));
+                       .getElementsByTagName("hospitalized")
+                       .item(0)
+                       .getTextContent().equals("true"));
 	               
 	            }
 	         }

@@ -60,7 +60,6 @@ public class FacilityAgent extends Agent implements DecisionAgent {
     	while (getManager() == null) {
     		setManager(findAgent(this, "manager"));
     	}
-    	//System.out.println("Facility Found "+getManager());
     	
     	addBehaviour(new RequestHandler());
 	}
@@ -110,7 +109,6 @@ public class FacilityAgent extends Agent implements DecisionAgent {
 					String inputString = readFile(file);
 					msg.setContent(inputString);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				msg.setConversationId("facility-pa-request");

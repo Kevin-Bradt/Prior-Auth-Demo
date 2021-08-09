@@ -53,7 +53,6 @@ rule "In Network" salience 1
 		$p : Physician( $n : npiNumber )
 		$pc : Policy( $npis : net_npis, net_npis contains $n )
 	then
-		//System.out.println("Provider is in network");
 		$p.setInNetwork(true);
 end
 
@@ -62,27 +61,8 @@ rule "Out of Network" salience 1
 		$p : Physician( $n : npiNumber )
 		$pc : Policy( $npis : net_npis, !(net_npis contains $n) )
 	then
-		//System.out.println("Provider is out of network");
 		$p.setInNetwork(false);
 end
-
-/*rule "Covered"
-	when
-		$i : MedicalInfo( $m : medication, $d : diagnosis, $e : explanation) and
-		$elig : EligibilityAgent() and
-		$pat : Patient() and
-		(( $p : Physician( inNetwork == true ) and $pc : Policy( net_not_covered excludes $e ) )
-			or
-		( $p : Physician( inNetwork == false ) and $pc : Policy( oon_covered contains $e ) ))
-	then
-		System.out.println("Policy allows eligibility for treatment");
-		$elig.quickMessage( $elig.getManager(), $elig, "true", "eligibility-approval");
-		
-		retract($i);
-		retract($p);
-		retract($pc);
-		retract($pat);
-end*/
 
 rule "Covered"
 	when

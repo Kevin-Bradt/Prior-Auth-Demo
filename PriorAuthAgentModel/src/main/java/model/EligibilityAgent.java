@@ -66,33 +66,27 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
     	// Register the eligibility agent in the yellow pages
     	registerAgent(this, getAID(), "eligibility");
     	
-    	
     	// Try receiving message
     	addBehaviour(new Messaging(kSession, this));
 	}
 	
 	// Drools calls this when agent receives form piece from manager
 	public void parseForm(String str_xml) {
-		//Parse string to xml if needed
-		//System.out.println(str_xml);
 		//Save data into patient class or other structure
 	    this.patient = new Patient(str_xml);
 	    this.medicalInfo = new MedicalInfo(str_xml);
 	    this.physician = new Physician(str_xml);
 	    this.policy = new Policy();
-	    //System.out.println(this.patient.getFirstName() + " " + this.patient.getLastName());
-	    //System.out.println(this.medicalInfo.getMedication() + " " + this.medicalInfo.getDiagnosis());
 	    
-	    //insert patient into ksession
+	    //insert patient, medicalinfo, physician, policy into ksession
         kSession.insert(this.patient);
         kSession.insert(this.medicalInfo);
         kSession.insert(this.physician);
         kSession.insert(this.policy);
-        kSession.fireAllRules();
-
-		//Insert this patient into Drools
-		//Fire rules to see if more info is needed
-		//If good, drools will call other method
+        
+        //Fire rules to see if more info is needed
+      	//If good, drools will call other method
+        kSession.fireAllRules();		
 	}
 	
 	public void nextStep() {
@@ -116,10 +110,7 @@ public class EligibilityAgent extends Agent implements DecisionAgent {
 			//Find manager
 			while (getManager() == null) {
 	    		setManager(findAgent(myAgent, "manager"));
-	    	}
-	    	//System.out.println("Eligibilty Found "+getManager());
-	    	
-	    	
+	    	}    	    	
 		}
 		
 		// Cycles forever

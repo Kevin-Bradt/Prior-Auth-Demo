@@ -59,8 +59,7 @@ public class ProviderAgent extends Agent implements DecisionAgent {
     	
     	// Adding agent to controller session
     	DecisionAgent.kSession2.insert(this);
-
-    	
+	
     	// Register the eligibility agent in the yellow pages
     	registerAgent(this, getAID(), "provider");
     	
@@ -75,16 +74,15 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 		this.physician = new Physician(str_xml);
 	    this.medicalInfo = new MedicalInfo(str_xml);
 	    this.policy = new Policy();
-		//System.out.println(this.physician.getLastName());
+	    
+	    //Insert medicalInfo, physician, policy into Drools
 	    kSession.insert(this.medicalInfo);
         kSession.insert(this.physician);
         kSession.insert(this.policy);
-        kSession.fireAllRules();
 		
-		
-		//Insert this patient into Drools
 		//Fire rules to see if more info is needed
 		//If good, drools will call other method
+        kSession.fireAllRules();
 	}
 	
 	public void nextStep() {
@@ -109,7 +107,6 @@ public class ProviderAgent extends Agent implements DecisionAgent {
 	    	while (getManager() == null) {
 	    		setManager(findAgent(myAgent, "manager"));
 	    	}
-	    	//System.out.println("Provider Found "+getManager());
 		}
 		
 		public void action() {
