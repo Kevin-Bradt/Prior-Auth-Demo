@@ -28,7 +28,7 @@ public class FacilityGui extends JFrame {
 			}
 		} );
 		
-		JLabel lab = new JLabel("Click here to start demo #1:");
+		JLabel lab = new JLabel("Simple Demo:\t    ");
 		p.add(lab);
 		JButton startButton = new JButton("Start Demo");
 		startButton.addActionListener( new ActionListener() {
@@ -40,10 +40,9 @@ public class FacilityGui extends JFrame {
 		p.add(stepButton);
 		
 		p = new JPanel();
-		p.setLayout(new FlowLayout(FlowLayout.LEFT));
 		getContentPane().add(p, BorderLayout.CENTER);
-		
-		JLabel lab2 = new JLabel("Click here to start demo #2:");
+		p.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JLabel lab2 = new JLabel("Invalid Info:\t       ");
 		p.add(lab2);
 		JButton startButton2 = new JButton("Start Demo");
 		startButton2.addActionListener( new ActionListener() {
@@ -54,10 +53,9 @@ public class FacilityGui extends JFrame {
 		p.add(startButton2);
 		
 		p = new JPanel();
-		p.setLayout(new FlowLayout(FlowLayout.LEFT));
 		getContentPane().add(p, BorderLayout.SOUTH);
-		
-		JLabel lab3 = new JLabel("Click here to start demo #3:");
+		p.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JLabel lab3 = new JLabel("Clinical Request:");
 		p.add(lab3);
 		JButton startButton3 = new JButton("Start Demo");
 		startButton3.addActionListener( new ActionListener() {
@@ -68,6 +66,8 @@ public class FacilityGui extends JFrame {
 		p.add(startButton3);
 		
 		setResizable(true);
+		setAlwaysOnTop(true);
+		setTitle("Prior Auth Demo");
 	}
 	
 	public void showGui() {
